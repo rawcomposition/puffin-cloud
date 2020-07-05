@@ -1,0 +1,39 @@
+.upload-page {
+	.dropzone {
+		border: dashed 2px #ccc;
+		border-radius: 10px;
+		padding: 2rem;
+		text-align: center;
+		cursor: pointer;
+		outline: none;
+		transition: all .2s;
+
+		&:hover, &:active, &:focus {
+			border-color: #61a0e4
+		}
+	}
+
+	.upload-items {
+		display: grid;
+		grid-template-columns: repeat(4, 1fr);
+		grid-gap: 2rem;
+
+		.item {
+			box-shadow: 0 1px 3px 0px rgba(0, 0, 0, 0.06);
+
+			input {
+				margin: 0;
+				border-radius: 0;
+				box-shadow: none;
+				font-size: 1rem;
+
+				&:last-child {
+					border-top: none;
+				}
+			}
+			img {
+				width: 100%;
+			}
+		}
+	}
+}

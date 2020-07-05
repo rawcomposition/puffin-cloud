@@ -80,7 +80,7 @@ function Header() {
 							if (data.self.id) {
 								return (
 									<div className="current-user">
-										<a className="btn outline">Upload Photos</a>
+										<Link className="btn outline" to="/upload">Upload Photos</Link>
 										<Avatar/>
 									</div>
 								);

@@ -15,7 +15,6 @@ h1, h2, h3, h4, h5 {
 .alt-bg {
 	background-color: white;
 	padding: 30px 0 90px 0;
-	margin-top: 90px;
 }
 
 .container {
@@ -117,6 +116,14 @@ input, input[type="text"], input[type="password"], input[type="email"], input[ty
 	margin: 2rem;
 }
 
+.mt-4 {
+	margin-top: 4rem;
+}
+
+.p2 {
+	padding: 2rem;
+}
+
 .btn {
 	background-color: #66676b;
 	top: 0;
@@ -143,6 +150,11 @@ input, input[type="text"], input[type="password"], input[type="email"], input[ty
 	&.outline {
 		border: solid 1px #ccc;
 		background: transparent;
+	}
+
+	&:hover, &:active {
+		color: white;
+		text-decoration: none;
 	}
 }
 
