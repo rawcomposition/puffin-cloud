@@ -1,0 +1,22 @@
+.stats {
+	display: flex;
+	justify-content: space-around;
+
+	.stat-box {
+		background-color: #f3f3f3;
+		padding: 30px 60px 50px 60px;
+		text-align: center;
+		border-radius: 6px;
+		width: 25%;
+
+		.stat {
+			font-size: 3rem;
+			color: #d25322;
+		}
+
+		h3 {
+			color: #777;
+			margin-top: 1rem;
+		}
+	}
+}

@@ -1,0 +1,59 @@
+.photo-page {
+	display: flex;
+	margin-top: 3rem;
+
+	.photo-container img {
+		width: 100%;
+		border-radius: 6px;
+		margin-bottom: 1rem;
+	}
+
+	.sidebar {
+		width: 400px;
+		margin-left: 3rem;
+
+		.download-button {
+			width: 100%;
+			padding: 12px;
+			border-radius: 6px;
+			background: #19b453;
+			text-align: center;
+			display: block;
+			color: white;
+			font-weight: 500;
+			margin-bottom: 2rem;
+			font-size: 1.2rem;
+			cursor: pointer;
+
+			&:hover, &:active {
+				color: white;
+			}
+
+			.icon {
+				width: 25px;
+				margin-right: 8px;
+			}
+		}
+	}
+
+	.widget {
+		background: #f9f9f9;
+		padding: 2rem;
+		border-radius: 6px;
+		margin-bottom: 2rem;
+	
+		.author-info {
+			display: flex;
+			padding-bottom: 1rem;
+			margin-bottom: 1rem;
+			border-bottom: solid 1px #e8e8e8;
+		}
+	}
+
+	.map {
+		width: 100%;
+		border-radius: 6px;
+		margin-bottom: 2rem;
+	}
+}
+
