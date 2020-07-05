@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import Header from './components/header';
+import Footer from './components/footer';
 import LoginModal from './components/login-modal/login-modal.component';
 import HomePage from './pages/homepage/homepage.component';
 import PhotoPage from './pages/photopage/photopage.component';
@@ -18,6 +19,7 @@ function App() {
 		  <Route path='/browse' component={BrowsePage}/>
 		</Switch>
 		<LoginModal/>
+		<Footer/>
 	</div>
   );
 }

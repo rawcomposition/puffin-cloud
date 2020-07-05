@@ -1,2 +1,0 @@
-# puffin-cloud
-PuffinCloud.org

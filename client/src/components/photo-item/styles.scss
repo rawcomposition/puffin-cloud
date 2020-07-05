@@ -25,6 +25,13 @@
 		display: flex;
 		text-decoration: none;
 		position: relative;
+		padding-right: 90px;
+
+		span {
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
 
 		.icons {
 			margin-left: auto;

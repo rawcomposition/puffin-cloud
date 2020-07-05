@@ -1,0 +1,23 @@
+.main-footer {
+	padding: 70px 0;
+	background-color: white;
+	border-top: 1px solid rgba(0,0,0,.09);
+
+	.container {
+		display: flex;
+		justify-content: space-between;
+	}
+
+	.siteinfo {
+		max-width: 40%;
+
+		h2 {
+			color: #d25322;
+			margin-bottom: 1rem;
+		}
+	}
+
+	.info-links a {
+		margin-right: 1rem;
+	}
+}
