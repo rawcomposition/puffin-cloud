@@ -1,0 +1,57 @@
+{
+  "kind": "collectionType",
+  "collectionName": "species_codes",
+  "info": {
+    "name": "Species Codes"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "species_code": {
+      "type": "string",
+      "unique": true
+    },
+    "common_name": {
+      "type": "string"
+    },
+    "scientific_name": {
+      "type": "string"
+    },
+    "order": {
+      "type": "string"
+    },
+    "family": {
+      "type": "string"
+    },
+    "species_group": {
+      "type": "string"
+    },
+    "extinct": {
+      "type": "boolean"
+    },
+    "extinct_year": {
+      "type": "string"
+    },
+    "taxon_order": {
+      "type": "decimal"
+    },
+    "category": {
+      "type": "enumeration",
+      "enum": [
+        "species",
+        "subspecies",
+        "slash",
+        "spuh",
+        "domestic",
+        "intergrade",
+        "form",
+        "hybrid"
+      ]
+    },
+    "parent_species_code": {
+      "type": "string"
+    }
+  }
+}

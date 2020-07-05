@@ -1,0 +1,7 @@
+node_modules
+*.env
+/api/public/uploads*
+exports
+.cache
+build
+*.DS_Store

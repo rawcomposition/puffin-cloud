@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/species-codes",
+      "handler": "species-codes.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/species-codes/count",
+      "handler": "species-codes.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/species-codes/:id",
+      "handler": "species-codes.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/species-codes",
+      "handler": "species-codes.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/species-codes/:id",
+      "handler": "species-codes.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/species-codes/:id",
+      "handler": "species-codes.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

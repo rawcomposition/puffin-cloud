@@ -1,0 +1,29 @@
+{
+  "kind": "collectionType",
+  "collectionName": "images",
+  "info": {
+    "name": "Images"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "user": {
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "species_code": {
+      "model": "species-codes"
+    },
+    "file": {
+      "model": "file",
+      "via": "related",
+      "allowedTypes": [
+        "images"
+      ],
+      "plugin": "upload",
+      "required": false
+    }
+  }
+}
