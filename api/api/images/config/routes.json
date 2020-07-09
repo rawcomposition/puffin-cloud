@@ -31,7 +31,15 @@
       "config": {
         "policies": []
       }
-    },
+	},
+	{
+		"method": "POST",
+		"path": "/bulkimages",
+		"handler": "images.bulkcreate",
+		"config": {
+		  "policies": []
+		}
+	  },
     {
       "method": "PUT",
       "path": "/images/:id",

@@ -142,9 +142,10 @@ input, input[type="text"], input[type="password"], input[type="email"], input[ty
 		background: #d25322;
 	}
 
-	&:disabled {
-		background-color: #66676b;
+	&.disabled {
+		background-color: #999;
 		cursor: inherit;
+		pointer-events: none;
 	}
 
 	&.outline {
@@ -155,6 +156,10 @@ input, input[type="text"], input[type="password"], input[type="email"], input[ty
 	&:hover, &:active {
 		color: white;
 		text-decoration: none;
+	}
+
+	&:focus {
+		outline: none;
 	}
 }
 

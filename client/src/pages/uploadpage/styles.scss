@@ -1,4 +1,15 @@
 .upload-page {
+	display: flex;
+
+	.sidebar {
+		width: 270px;
+		flex-shrink: 0;
+		padding: 2rem;
+		background: #555;
+		color: white;
+		min-height: 80vh;
+	}
+
 	.dropzone {
 		border: dashed 2px #ccc;
 		border-radius: 10px;
@@ -7,6 +18,7 @@
 		cursor: pointer;
 		outline: none;
 		transition: all .2s;
+		align-self: flex-start;  
 
 		&:hover, &:active, &:focus {
 			border-color: #61a0e4
@@ -14,12 +26,18 @@
 	}
 
 	.upload-items {
-		display: grid;
-		grid-template-columns: repeat(4, 1fr);
-		grid-gap: 2rem;
+		margin-bottom: 2rem;
+		padding: 2rem;
+		display: flex;
+		flex-wrap: wrap;
 
 		.item {
 			box-shadow: 0 1px 3px 0px rgba(0, 0, 0, 0.06);
+			position: relative;
+			background: #e2e2e2;
+			margin: 0 2rem 2rem 0;
+			max-width: 260px;
+			align-self: flex-start;  
 
 			input {
 				margin: 0;
@@ -32,8 +50,37 @@
 				}
 			}
 			img {
-				width: 100%;
+				width: 260px;
+				height: 180px;
+				object-fit: contain;
+			}
+
+			.status {
+				position: absolute;
+				top: 5px;
+				right: 5px;
+				padding: 2px 6px;
+				background: #eee;
+				border-radius: 4px;
+				font-size: .85em;
+				font-weight: 500;
+				box-shadow: 0 1px 3px 0px rgba(0, 0, 0, 0.2);
+
+				&.status-uploaded {
+					background: #28a745;
+					color: white;
+				}
+
+				&.status-error {
+					background: #dc3545;
+					color: white;
+				}
 			}
 		}
+	}
+
+	.upload-status {
+		font-weight: 500;
+		margin-top: 1rem;
 	}
 }

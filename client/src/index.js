@@ -6,16 +6,21 @@ import { BrowserRouter } from 'react-router-dom';
 import * as serviceWorker from './serviceWorker'
 import { ApolloProvider } from 'react-apollo'
 import { ApolloClient } from 'apollo-client'
-import { createHttpLink } from 'apollo-link-http'
+import { createHttpLink } from 'apollo-link-http';
+import { createUploadLink } from 'apollo-upload-client';
 import { ApolloLink, concat } from 'apollo-link';
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import UIProvider from './providers/ui/ui.provider';
+import { getJWT } from './utils/user';
 
-const httpLink = createHttpLink({
-	uri: 'http://localhost:1337/graphql'
-})
+const uploadLink = createUploadLink({
+	uri: 'http://localhost:1337/graphql',
+	headers: {
+		"keep-alive": "true"
+	}
+});
 
-const jwt = localStorage.getItem('jwt');
+const jwt = getJWT();
 
 const authMiddleware = new ApolloLink((operation, forward) => {
 	operation.setContext({
@@ -28,7 +33,7 @@ const authMiddleware = new ApolloLink((operation, forward) => {
 });
 
 const client = new ApolloClient({
-	link: concat(authMiddleware, httpLink),
+	link: concat(authMiddleware, uploadLink),
 	cache: new InMemoryCache()
 });
 

@@ -5,4 +5,16 @@
  * to customize this controller
  */
 
-module.exports = {};
+module.exports = {
+	bulkcreate: async ctx => {
+		const images = ctx.request.body;
+		for(const image of images) {
+			await strapi.services.images.create({
+				user: ctx.state.user.id,
+				file: image.file_id,
+				species_code: image.species_code_id,
+			});
+		}
+		return {};
+	},
+};

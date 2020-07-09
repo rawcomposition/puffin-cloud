@@ -48,11 +48,13 @@ const SpeciesSearch = ({handleChange, handleInputChange, inputValue = '', hideBo
 		if (e.keyCode === 13) {
 			const selectedCode = suggestions[activeIndex].species_code;
 			const selectedLabel = suggestions[activeIndex].common_name;
+			const selectedId = suggestions[activeIndex].id;
 			handleInputChange(selectedLabel);
 			setOpen(false);
 			handleChange({
 				speciesCode: selectedCode,
 				speciesLabel: selectedLabel,
+				speciesId: selectedId,
 			});
 		} else if (e.keyCode === 38) {
 			if (activeIndex === 0) {

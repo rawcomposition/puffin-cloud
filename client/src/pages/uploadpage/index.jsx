@@ -1,66 +1,144 @@
-import React, {useCallback, useState} from 'react';
-import {useDropzone} from 'react-dropzone';
+import React, {useCallback, useState, useEffect} from 'react';
+import ImageDropzone from '../../components/image-dropzone';
+import UploadStatus from '../../components/upload-status';
+import UploadableImage from '../../components/uploadable-image';
+import { getJWT } from '../../utils/user';
 import './styles.scss';
-import SpeciesSearch from '../../components/species-search';
+import gql from 'graphql-tag';
+import { useMutation } from '@apollo/react-hooks';
+
+const UPLOAD_MUTATION = gql`
+	mutation Upload($file: Upload!) {
+		upload(file: $file) {
+			id,
+		}
+	}
+`;
 
 function UploadPage() {
 	const [images, setImages] = useState([]);
+	const [totalFiles, setTotalFiles] = useState(0);
+	const [uploadStarted, setUploadStarted] = useState(false);
+	const [remainingUploads, setRemainingUploads] = useState(null);
+	const [uploadImage] = useMutation(UPLOAD_MUTATION);
 
-	const onDrop = useCallback((acceptedFiles) => {
-		acceptedFiles.forEach((file) => {
-			if (!file.type.match('image')) return;
-			const reader = new FileReader()
+	//Todo: images is stale (and empty) when this runs :(
+	//useEffect(() => {
+	//	return () => {
+	//		for (const image of images) {
+	//			URL.revokeObjectURL(image.src);
+	//		}
+	//	}
+	//}, []);
 
-			reader.onabort = () => console.log('file reading was aborted');
-			reader.onerror = () => console.log('file reading has failed');
-			reader.onload = (e) => {
-				setImages([...images, {
-					src: reader.result,
-				}]);
-			}
-			reader.readAsDataURL(file);
-		})
-
-	}, [])
-
-	const handleSpeciesInputChange = (value, targetIndex) => {
-		console.log(value, targetIndex);
-		let imagesCopy = [...images];
-		imagesCopy[targetIndex] = {
-			...imagesCopy[targetIndex],
-			speciesInput: value,
-		}
-		setImages(imagesCopy);
+	const handleDropzoneImageAdd = (imageObject) => {
+		setImages(images => ([...images, imageObject]));
 	}
 
-	const handleSpeciesChange = ({speciesCode, speciesLabel}, targetIndex) => {
+	const handleSetTotalFiles = (total) => {
+		setTotalFiles(total);
+	}
+
+	useEffect(() => {
+		if(totalFiles === images.length && ! uploadStarted) {
+			handleUpload();
+		}
+	}, [images]);
+
+	const handleSpeciesChange = ({speciesCode, speciesId}, targetIndex) => {
+		console.log(speciesId);
 		let imagesCopy = [...images];
 		imagesCopy[targetIndex] = {
 			...imagesCopy[targetIndex],
 			code: speciesCode,
-			speciesInput: speciesLabel,
+			species_id: speciesId,
 		}
 		setImages(imagesCopy);
 	}
 
-	const {getRootProps, getInputProps} = useDropzone({onDrop});
-	  
+	const updateImageStatus = (status, targetIndex) => {		
+		setImages(images => {
+			let imagesCopy = [...images];
+			imagesCopy[targetIndex] = {
+				...imagesCopy[targetIndex],
+				status: status,
+			}
+			return imagesCopy;
+		});
+	};
+
+	const handleUpload = async () => {
+		const totalImages = images.length;
+		if(totalImages > 0) {
+			setUploadStarted(true);
+			setRemainingUploads(totalImages);
+		}
+		for (const [index, value] of images.entries()) {
+			updateImageStatus('loading', index);
+			await uploadImage({
+				variables: {
+					file: value.file
+				}
+			}).then(response => {
+				setImages(images => {
+					let imagesCopy = [...images];
+					imagesCopy[index] = {
+						...imagesCopy[index],
+						file_id: response.data.upload.id,
+					}
+					return imagesCopy;
+				});
+				updateImageStatus('uploaded', index);
+				setRemainingUploads(value => (value > 1 ? value - 1 : 0));
+			});
+		}
+	};
+
+	const handleSubmit = () => {
+		let error = false;
+		const data = images.map(image => {
+			if(!image.species_id || !image.file_id) {
+				error = true;
+			}
+			return {
+				species_code_id: image.species_id,
+				file_id: image.file_id
+			}
+		});
+		if(error) {
+			alert("Please choose a species and location for each image");
+			return false;
+		}
+		const jwt = getJWT();
+		const requestOptions = {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				'authorization': jwt ? 'Bearer ' + jwt : '',
+				
+			},
+			body: JSON.stringify(data),
+		};
+		fetch('http://localhost:1337/bulkimages', requestOptions)
+			.then(response => response.json())
+			.then(data => {
+				alert("success");
+			});
+	}
+
 	return (
-		<div className="alt-bg">
-			<div className="container upload-page p2">
-				<div {...getRootProps({className: 'dropzone'})}>
-					<input {...getInputProps()} />
-					<span>Drag 'n' drop some images here, or click to select images</span>
-				</div>
-				<div className="upload-items mt-4">
-					{images.map((image, index) => (
-						<div className="item" key={index}>
-							<img src={image.src}/>
-							<SpeciesSearch inputValue={image.speciesInput} handleChange={(value) => handleSpeciesChange(value, index)} handleInputChange={(value) => handleSpeciesInputChange(value, index)}/>
-							<input type="text" placeholder="Location..."/>
-						</div>
-					))}
-				</div>
+		<div className="upload-page">
+			<div className="sidebar">
+				<button type="button" className={ 'btn primary' + (remainingUploads !== 0 ? ' disabled' : '')} onClick={handleSubmit}>Submit Images</button>
+				<UploadStatus uploadStarted={uploadStarted} remainingUploads={remainingUploads}/>
+			</div>
+			<div className="upload-items">
+				{!images.length &&
+					<ImageDropzone handleImageAdd={handleDropzoneImageAdd} handleSetTotalFiles={handleSetTotalFiles}/>
+				}
+				{images.map((image, index) => (
+					<UploadableImage key={index} image={image} index={index} handleSpeciesChange={handleSpeciesChange}/>
+				))}
 			</div>
 		</div>
 	);
