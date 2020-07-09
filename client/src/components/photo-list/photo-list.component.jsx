@@ -5,11 +5,14 @@ import PhotoItem from '../photo-item/photo-item.component';
 import './photo-list.scss';
 
 const PHOTOS_QUERY = gql`
-	query Images($speciesCode: String, $commonName: String, $limit: Int!, $start: Int!){
+	query Images($speciesCode: String, $userId: String, $commonName: String, $limit: Int!, $start: Int!){
 		images(limit: $limit, start: $start, where: {
 			species_code: {
 				species_code: $speciesCode,
 				common_name_contains: $commonName
+			},
+			user: {
+				id: $userId
 			}
 		}){
 			species_code  {
@@ -28,13 +31,14 @@ const PHOTOS_QUERY = gql`
 	}
 `;
 
-function PhotoList({speciesCode, infiniteScroll = true, loadMore = true}) {
+function PhotoList({speciesCode, userId, infiniteScroll = true, loadMore = true}) {
 	const [resultsEnd, setResultsEnd] = useState(false);
 	const { data = [], fetchMore, loading, error } = useQuery(
 		PHOTOS_QUERY,
 		{
 			variables: {
 				speciesCode,
+				userId,
 				limit: 6,
 				start: 0
 			},

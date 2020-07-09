@@ -7,6 +7,7 @@ import HomePage from './pages/homepage/homepage.component';
 import PhotoPage from './pages/photopage/photopage.component';
 import BrowsePage from './pages/browsepage';
 import UploadPage from './pages/uploadpage';
+import ProfilePage from './pages/profilepage';
 import PrivateRoute from './components/private-route';
 import './_reboot.scss';
 import './App.scss';
@@ -18,6 +19,7 @@ function App() {
 		<Switch>
           <Route exact path='/' component={HomePage}/>
 		  <Route path='/photo/:photoId' component={PhotoPage}/>
+		  <Route path='/profile/:userId' component={ProfilePage}/>
 		  <Route path='/browse' component={BrowsePage}/>
 		  <PrivateRoute path='/upload' component={UploadPage}/>
 		</Switch>

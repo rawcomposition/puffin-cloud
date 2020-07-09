@@ -1,9 +1,14 @@
 {
 	"routes": [
 		{
-		"method": "GET",
-		"path": "/stats",
-		"handler": "Stats.index"
+			"method": "GET",
+			"path": "/stats",
+			"handler": "Stats.index"
+		},
+		{
+			"method": "GET",
+			"path": "/stats/user/:userId",
+			"handler": "Stats.user"
 		}
 	]
 }
