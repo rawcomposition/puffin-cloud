@@ -17,13 +17,16 @@ const PHOTOS_QUERY = gql`
 		}){
 			species_code  {
 				common_name,
-				species_code
+				species_code,
+				id
 			},
 			user {
-				username
+				username,
+				id
 			},
 			file {
-				url
+				url,
+				id
 			},
 			created_at,
 			id,
@@ -87,9 +90,11 @@ function PhotoList({speciesCode, userId, infiniteScroll = true, loadMore = true}
 	return (
 		<React.Fragment>
 			<div className="photo-grid">
-				{images.map(image => (
-					<PhotoItem key={image.id} item={image}/>
-				))}
+				{images.map(image => {
+					if(image.file) {
+						return <PhotoItem key={image.id} item={image}/>
+					}
+				})}
 			</div>
 			{loading ? 'Loading...' : ''}
 			{error ? `Error! ${error.message}` : ''}

@@ -9,6 +9,7 @@ import BrowsePage from './pages/browsepage';
 import UploadPage from './pages/uploadpage';
 import ProfilePage from './pages/profilepage';
 import PrivateRoute from './components/private-route';
+import Error404 from './pages/error-404';
 import './_reboot.scss';
 import './App.scss';
 
@@ -22,6 +23,7 @@ function App() {
 		  <Route path='/profile/:userId' component={ProfilePage}/>
 		  <Route path='/browse' component={BrowsePage}/>
 		  <PrivateRoute path='/upload' component={UploadPage}/>
+		  <Route component={Error404}/>
 		</Switch>
 		<LoginModal/>
 		<Footer/>

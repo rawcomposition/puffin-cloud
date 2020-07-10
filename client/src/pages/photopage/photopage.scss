@@ -38,9 +38,12 @@
 
 	.widget {
 		background: #f9f9f9;
-		padding: 2rem;
 		border-radius: 6px;
 		margin-bottom: 2rem;
+
+		.technical {
+			font-size: .9em;
+		}
 	
 		.author-info {
 			display: flex;
