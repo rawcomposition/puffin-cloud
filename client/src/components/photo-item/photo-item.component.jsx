@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import './styles.scss';
 
-function PhotoItem({item}) {
+const PhotoItem = React.memo(({item}) => {
 	return(
 		<Link to={"photo/"+item.id} className="photo">
 			<div className="photo-wrapper">
@@ -16,5 +16,5 @@ function PhotoItem({item}) {
 			</div>
 		</Link>
 	);
-}
+});
 export default PhotoItem;

@@ -50,12 +50,12 @@ function PhotoList({speciesCode, userId, infiniteScroll = true, loadMore = true}
 	);
 
 	useEffect(() => {
-		if(!infiniteScroll || resultsEnd) return;
+		if(!infiniteScroll || resultsEnd || loading) return;
 		document.addEventListener("scroll", handleOnScroll);
 		return () => {
 			document.removeEventListener("scroll", handleOnScroll);
 		};
-	}, [data.images, resultsEnd]);
+	}, [data.images, resultsEnd, loading]);
 	
 	const handleLoadMore = () => {
 		fetchMore({
@@ -91,7 +91,8 @@ function PhotoList({speciesCode, userId, infiniteScroll = true, loadMore = true}
 		<React.Fragment>
 			<div className="photo-grid">
 				{images.map(image => {
-					if(image.file) {
+					console.log(image.file);
+					if(image.file && image.species_code) {
 						return <PhotoItem key={image.id} item={image}/>
 					}
 				})}
