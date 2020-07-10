@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useRef, useEffect } from 'react';
 import { Link, useLocation, useHistory } from 'react-router-dom';
 import { Query } from 'react-apollo'
 import gql from 'graphql-tag'
@@ -6,6 +6,7 @@ import { UIContext } from '../../providers/ui/ui.provider';
 import './styles.scss';
 import Avatar from '../avatar';
 import SpeciesSearch from '../species-search';
+import { logout } from '../../utils/user';
 
 const USER_QUERY = gql`
 {
@@ -26,10 +27,19 @@ function Header() {
 		value: '',
 	}
 
+	const [menuOpen, setMenuOpen] = useState(false);
 	const [formState, setFormState] = useState(initialState);
 	const { speciesCode, speciesLabel, value } = formState;
 	const { pathname } = useLocation();
 	const isHome = pathname == '/';
+	const node = useRef();
+
+	useEffect(() => {
+		document.addEventListener("mousedown", handleClick);
+		return () => {
+			document.removeEventListener("mousedown", handleClick);
+		};
+	}, []);
 
 	const handleSpeciesChange = response => {
 		const {speciesLabel, speciesCode } = response;
@@ -50,6 +60,21 @@ function Header() {
 			value
 		});
 	}
+
+	const handleLogout = (e) => {
+		logout();
+	}
+
+	const handleMenuClick = (e) => {
+		setMenuOpen(menuOpen => !menuOpen);
+	}
+
+	const handleClick = e => {
+		if (node.current && node.current.contains(e.target)) {
+			return;
+		}
+		setMenuOpen(false);
+	};
 
 	return(
 		<header className="masthead">
@@ -81,13 +106,23 @@ function Header() {
 								return (
 									<div className="current-user">
 										<Link className="btn outline" to="/upload">Upload Photos</Link>
-										<Avatar/>
+										<div className="dropdown-menu-container" onClick={handleMenuClick} ref={node}>
+											<Avatar/>
+											<ul className={'dropdown-menu ' + (menuOpen ? 'active' : '')}>
+												<li>
+													<Link className="nav-item" to={'/profile/' + data.self.id}>Profile</Link>
+												</li>
+												<li>
+													<a className="nav-item" onClick={handleLogout}>Logout</a>
+												</li>
+											</ul>
+										</div>
 									</div>
 								);
 							} else {
 								return (
 									<li>
-										<a className="active" onClick={() => toggleLoginModal()}>Sign In</a>
+										<a className="nav-item" onClick={() => toggleLoginModal()}>Sign In</a>
 									</li>
 								);
 							}

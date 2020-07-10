@@ -179,3 +179,30 @@ input, input[type="text"], input[type="password"], input[type="email"], input[ty
 		outline: none;
 	}
 }
+
+.dropdown-menu-container {
+	position: relative;
+	cursor: pointer;
+
+	.dropdown-menu {
+		position: absolute;
+		top: 45px;
+		right: -20px;
+		display: none;
+		background: white;
+		padding: 10px;
+		border-radius: 6px;
+		box-shadow: 0 0 10px 0 rgba(0,0,0,.12);
+		list-style-type: none;
+		z-index: 1;
+
+		a:hover, a:active {
+			color: #d25322;
+			font-weight: unset;
+		}
+
+		&.active {
+			display: block;
+		}
+	}
+}
