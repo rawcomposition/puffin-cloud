@@ -6,6 +6,7 @@ import { getJWT } from '../../utils/user';
 import './styles.scss';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
+import { setTitle } from '../../utils/global';
 
 const UPLOAD_MUTATION = gql`
 	mutation Upload($file: Upload!) {
@@ -38,6 +39,10 @@ function UploadPage() {
 	const handleSetTotalFiles = (total) => {
 		setTotalFiles(total);
 	}
+
+	useEffect(() => {
+		setTitle("Upload Images");
+	}, []);
 
 	useEffect(() => {
 		if(totalFiles === images.length && ! uploadStarted) {

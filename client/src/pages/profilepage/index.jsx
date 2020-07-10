@@ -4,6 +4,7 @@ import Avatar from '../../components/avatar';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import UserStats from '../../components/user-stats';
+import { setTitle } from '../../utils/global';
 import './styles.scss';
 
 const USER_QUERY = gql`
@@ -24,6 +25,7 @@ function ProfilePage({match: {params: {userId}}}) {
 						if (loading) return "Loading stats..."
 						if (error) return `Error! ${error.message}`
 						if (data.user) {
+							setTitle(data.user.first_name + ' ' + data.user.last_name);
 							return (
 								<div className="profile">
 									<Avatar size="100"/>

@@ -3,6 +3,7 @@ import './photopage.scss';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import Avatar from '../../components/avatar';
+import { setTitle } from '../../utils/global';
 
 const PHOTO_QUERY = gql`
 	query Image($photoId: ID!){
@@ -31,6 +32,7 @@ function PhotoPage({match: {params: {photoId}}}) {
 					if (loading) return "Loading..."
 					if (error) return `Error! ${error.message}`
 					const image = data.image;
+					setTitle(image.species_code.common_name);
 					return (
 						<React.Fragment>
 							<div className="photo-container">
