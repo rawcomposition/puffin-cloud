@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link, useLocation, useHistory } from 'react-router-dom';
 import './styles.scss';
 
 function Footer() {
@@ -10,8 +11,8 @@ function Footer() {
 					<p>Morbi convallis bibendum urna ut viverra. Maecenas quis consequat libero, a feugiat eros. Nunc ut lacinia tortor morbi ultricies laoreet ullamcorper phasellus semper.</p>
 				</div>
 				<div className="info-links">
-					<a href="">About</a>	
-					<a href="">License</a>
+					<Link to="/about">About</Link>	
+					<Link to="/license">License</Link>
 					<a href="">Contribute</a>
 				</div>
 			</div>
