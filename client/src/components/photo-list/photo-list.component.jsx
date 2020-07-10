@@ -98,7 +98,7 @@ function PhotoList({speciesCode, userId, infiniteScroll = true, loadMore = true}
 			</div>
 			{loading ? 'Loading...' : ''}
 			{error ? `Error! ${error.message}` : ''}
-			{(loadMore && !resultsEnd && !loading) &&
+			{(loadMore && !resultsEnd && !loading && images.length > 0) &&
 				<p className="text-center">
 					<button className="btn m2" onClick={handleLoadMore}>Load More</button>
 				</p>
