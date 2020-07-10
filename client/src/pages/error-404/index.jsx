@@ -1,4 +1,4 @@
-import React, {useCallback, useState, useEffect} from 'react';
+import React, { useEffect } from 'react';
 import { setTitle } from '../../utils/global';
 import './styles.scss';
 

@@ -91,7 +91,7 @@ function Header() {
 						<Link className="active nav-item" to="/">Home</Link>
 					</li>
 					<li>
-						<a className="nav-item" href="/">About</a>
+						<Link className="nav-item" to="/about">About</Link>
 					</li>
 					<li>
 						<Link className="nav-item" to="/browse">Browse</Link>
