@@ -1,4 +1,5 @@
 const { sanitizeEntity } = require('strapi-utils');
+var crypto = require("crypto-js");
 
 const sanitizeUser = user =>
 	sanitizeEntity(user, {
@@ -14,8 +15,7 @@ module.exports = {
 
 		if (data) {
 			data = sanitizeUser(data);
-		}
-		if(data) {
+			data.avatar = 'https://www.gravatar.com/avatar/' + crypto.MD5(data.email).toString() + '?d=mm&size=120';
 			data.email = '';
 			data.username = '';
 			data.provider = '';
@@ -23,8 +23,22 @@ module.exports = {
 			data.blocked = '';
 			data.role = '';
 		}
-
 		// Send 200 `ok`
+		ctx.send(data);
+	},
+	async me(ctx) {
+		const user = ctx.state.user;
+
+		if (!user) {
+			return ctx.badRequest(null, [{ messages: [{ id: 'No authorization header was found' }] }]);
+		}
+
+		const data = sanitizeUser(user);
+
+		if (data) {
+			data.avatar = 'https://www.gravatar.com/avatar/' + crypto.MD5(data.email).toString() + '?d=mm&size=120';
+		}
+
 		ctx.send(data);
 	},
 };

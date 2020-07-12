@@ -11,6 +11,7 @@
   },
   "devDependencies": {},
   "dependencies": {
+    "crypto-js": "^4.0.0",
     "knex": "<0.20.0",
     "mysql": "latest",
     "strapi": "3.0.5",

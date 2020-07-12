@@ -5,7 +5,7 @@ import './styles.scss';
 const PhotoItem = React.memo(({item}) => {
 	const url = item.file.formats.medium.url;
 	return(
-		<Link to={"photo/"+item.id} className="photo">
+		<Link to={"/photo/"+item.id} className="photo">
 			<div className="photo-wrapper">
 				<img src={url} alt=""/>
 			</div>

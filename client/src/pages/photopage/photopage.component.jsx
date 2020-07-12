@@ -58,7 +58,7 @@ function PhotoPage({match: {params: {photoId}}}) {
 										<span className="text-muted text-small">Photographer</span><br/>
 										<strong>{image.user.first_name} {image.user.last_name}</strong>
 									</div>
-									<Avatar/>
+									<Avatar url={image.user.first_name}/>
 								</Link>
 								<div className="technical">
 									<b>License: </b>Creative Commons Zero<br/>

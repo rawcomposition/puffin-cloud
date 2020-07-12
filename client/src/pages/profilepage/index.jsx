@@ -13,7 +13,8 @@ const USER_QUERY = gql`
 		user(id: $userId) {
 			first_name,
 			last_name,
-			id
+			id,
+			avatar
 		}
 	}
 `;
@@ -29,7 +30,7 @@ function ProfilePage({match: {params: {userId}}}) {
 							setTitle(data.user.first_name + ' ' + data.user.last_name);
 							return (
 								<div className="profile">
-									<Avatar size="100"/>
+									<Avatar url={data.user.avatar} size="100"/>
 									<span className="profile-info">
 										<h3>{data.user.first_name} {data.user.last_name}</h3>
 										<UserStats userId={data.user.id}/>

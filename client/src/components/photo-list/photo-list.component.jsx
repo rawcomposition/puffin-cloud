@@ -22,7 +22,7 @@ const PHOTOS_QUERY = gql`
 			},
 			user {
 				username,
-				id
+				id,
 			},
 			file {
 				formats,

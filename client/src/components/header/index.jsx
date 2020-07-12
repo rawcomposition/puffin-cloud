@@ -12,7 +12,8 @@ const USER_QUERY = gql`
 {
 	self {
 		first_name,
-		id
+		id,
+		avatar
 	}
 }
 `
@@ -107,7 +108,7 @@ function Header() {
 									<div className="current-user">
 										<Link className="btn outline" to="/upload">Upload Photos</Link>
 										<div className="dropdown-menu-container" onClick={handleMenuClick} ref={node}>
-											<Avatar/>
+											<Avatar url={data.self.avatar}/>
 											<ul className={'dropdown-menu ' + (menuOpen ? 'active' : '')}>
 												<li>
 													<Link className="nav-item" to={'/profile/' + data.self.id}>Profile</Link>
