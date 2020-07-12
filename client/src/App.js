@@ -18,7 +18,7 @@ import './App.scss';
 
 function App() {
   return (
-	<div className="wrapper">
+	<React.Fragment>
 		<Header/>
 		<Switch>
           <Route exact path='/' component={HomePage}/>
@@ -33,7 +33,7 @@ function App() {
 		</Switch>
 		<LoginModal/>
 		<Footer/>
-	</div>
+	</React.Fragment>
   );
 }
 

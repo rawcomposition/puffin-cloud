@@ -132,7 +132,7 @@ function UploadPage() {
 	}
 
 	return (
-		<div className="upload-page">
+		<div className="upload-page page-wrapper">
 			<div className="sidebar">
 				<button type="button" className={ 'btn primary' + (remainingUploads !== 0 ? ' disabled' : '')} onClick={handleSubmit}>Submit Images</button>
 				<UploadStatus uploadStarted={uploadStarted} remainingUploads={remainingUploads}/>
