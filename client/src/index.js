@@ -12,6 +12,9 @@ import { ApolloLink, concat } from 'apollo-link';
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import UIProvider from './providers/ui/ui.provider';
 import { getJWT } from './utils/user';
+import axios from 'axios';
+
+axios.defaults.baseURL = 'http://localhost:1337/';
 
 const uploadLink = createUploadLink({
 	uri: 'http://localhost:1337/graphql',
