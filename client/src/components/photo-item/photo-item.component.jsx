@@ -3,10 +3,11 @@ import { Link } from 'react-router-dom';
 import './styles.scss';
 
 const PhotoItem = React.memo(({item}) => {
+	const url = item.file.formats.medium.url;
 	return(
 		<Link to={"photo/"+item.id} className="photo">
 			<div className="photo-wrapper">
-				<img src={item.file.url} alt=""/>
+				<img src={url} alt=""/>
 			</div>
 			<div className="footer">
 				<span>{item.species_code.common_name}</span>

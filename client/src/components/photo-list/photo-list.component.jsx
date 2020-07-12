@@ -25,7 +25,7 @@ const PHOTOS_QUERY = gql`
 				id
 			},
 			file {
-				url,
+				formats,
 				id
 			},
 			created_at,

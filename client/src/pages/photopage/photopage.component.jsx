@@ -21,7 +21,7 @@ const PHOTO_QUERY = gql`
 				id,
 			}
 			file {
-				url,
+				formats,
 				id,
 				size,
 				width,
@@ -40,10 +40,11 @@ function PhotoPage({match: {params: {photoId}}}) {
 				if (error || ! data.image) return <Error404/>
 				const image = data.image;
 				setTitle(image.species_code.common_name);
+				const url = image.file.formats.large.url;
 				return (
 					<div className="container photo-page">
 						<div className="photo-container">
-							<img src={image.file.url}/>
+							<img src={url}/>
 							<h2>{image.species_code.common_name} <span className="text-badge text-italic">{image.species_code.scientific_name}</span></h2>
 						</div>
 						<div className="sidebar">
