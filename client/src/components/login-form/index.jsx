@@ -22,13 +22,15 @@ const initialState = {
 }
 
 function LoginForm() {
-	const [login] = useMutation(LOGIN_MUTATION);
+	const [ login, { loading: mutationLoading } ] = useMutation(LOGIN_MUTATION);
 
 	const [formState, setFormState] = useState(initialState);
+	const [formError, setFormError] = useState(null);
 
 	const { email, password } = formState;
 	
 	const handleLogin = () => {
+		setFormError(false);
 		login({
 			variables: {
 				email: email,
@@ -39,6 +41,8 @@ function LoginForm() {
 			const { jwt } = response.data.login;
 			localStorage.setItem('jwt', jwt);
 			window.location.href = '/';
+		}).catch(e => {
+			setFormError(true);
 		});
 	}
 	
@@ -52,14 +56,15 @@ function LoginForm() {
 		handleLogin();
 	}
 
-	const submitDisabled = !email || !password;
+	const submitDisabled = !email || !password || mutationLoading;
 
 	return (
 		<form onSubmit={handleSubmit} className="login-form">
+			{formError && <div className="form-error">Unable to login. Please double check your email and password.</div>}
 			<input type="text" onChange={handleInputChange} name="email" value={email} placeholder="Email"/>
 			<input type="password" onChange={handleInputChange} placeholder="Password" name="password" value={password}/>
 			<div className="button-container">
-				<button className="btn primary" disabled={submitDisabled}>Sign In</button>
+				<button className={'btn primary' + (submitDisabled ? ' disabled' : '')} disabled={submitDisabled}>Sign In</button>
 				<Link to="/forgot-password">Forgot Password</Link>
 			</div>
 			<div className="text-center text-muted mt-2">

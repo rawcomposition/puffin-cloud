@@ -235,3 +235,11 @@ input, input[type="text"], input[type="password"], input[type="email"], input[ty
 		margin-bottom: 1rem;
 	}
 }
+
+.form-error {
+	background: #ca2f2f;
+	border-radius: 3px;
+	padding: 8px 12px;
+	color: white;
+	margin-bottom: 1rem;
+}
