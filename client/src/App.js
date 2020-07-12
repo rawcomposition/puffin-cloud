@@ -11,6 +11,7 @@ import ProfilePage from './pages/profilepage';
 import AboutPage from './pages/aboutpage';
 import LicensePage from './pages/licensepage';
 import PrivateRoute from './components/private-route';
+import LoginPage from './pages/loginpage';
 import Error404 from './pages/error-404';
 import './_reboot.scss';
 import './App.scss';
@@ -26,6 +27,7 @@ function App() {
 		  <Route path='/browse' component={BrowsePage}/>
 		  <Route path='/about' component={AboutPage}/>
 		  <Route path='/license' component={LicensePage}/>
+		  <Route path ='/login' component={LoginPage}/>
 		  <PrivateRoute path='/upload' component={UploadPage}/>
 		  <Route component={Error404}/>
 		</Switch>

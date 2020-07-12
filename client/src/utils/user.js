@@ -3,7 +3,7 @@ export const getJWT = () => {
 }
 
 export const isLoggedIn = () => {
-	return !! getJWT;
+	return !! getJWT();
 }
 
 export const logout = () => {
