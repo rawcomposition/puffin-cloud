@@ -121,9 +121,12 @@ function Header() {
 								);
 							} else {
 								return (
-									<li>
-										<a className="nav-item" onClick={() => toggleLoginModal()}>Sign In</a>
-									</li>
+									<React.Fragment>
+									<Link className="btn outline" to="/sign-up">Contribute</Link>
+										<li>
+											<a className="nav-item" onClick={() => toggleLoginModal()}>Sign In</a>
+										</li>
+									</React.Fragment>
 								);
 							}
 						}}
