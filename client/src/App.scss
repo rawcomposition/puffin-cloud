@@ -147,6 +147,11 @@ input, input[type="text"], input[type="password"], input[type="email"], input[ty
 	padding: 2rem;
 }
 
+.m-auto {
+	margin: auto;
+	display: block !important;
+}
+
 .btn {
 	background-color: #66676b;
 	top: 0;
