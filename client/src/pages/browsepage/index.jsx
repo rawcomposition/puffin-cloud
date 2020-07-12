@@ -8,32 +8,25 @@ function BrowsePage({location}) {
 	const initialState = {
 		speciesCode: undefined,
 		speciesLabel: undefined,
-		value: '',
 	}
 	const [formState, setState] = useState(initialState);
+	const [speciesInput, setSpeciesInput] = useState('');
 
 	useEffect( () => {
-		if (location.state && Object.keys(location.state).length > 0) setState({
-			...location.state,
-			value: location.state.speciesLabel,
-		});
+		if (location.state && Object.keys(location.state).length > 0) {
+			setState({...location.state});
+			setSpeciesInput(location.state.speciesLabel);
+		};
 	}, [location.state]);
 
 	useEffect(() => {
 		setTitle("Browse Images");
 	}, []);
 
-	const handleSpeciesChange = ({ code }) => {
+	const handleSpeciesChange = ({ speciesCode }) => {
 		setState({
 			...formState,
-			speciesCode: code,
-		});
-	}
-
-	const handleInputChange = (value) => {
-		setState({
-			...formState,
-			value
+			speciesCode
 		});
 	}
 
@@ -42,7 +35,7 @@ function BrowsePage({location}) {
 	return (
 		<div className="container browse-page">
 			<div className="filter-menu">
-				<SpeciesSearch defaultValue={speciesLabel} inputValue={value} handleInputChange={handleInputChange} handleChange={handleSpeciesChange}/>
+				<SpeciesSearch defaultValue={speciesLabel} inputValue={speciesInput} handleInputChange={(value) => setSpeciesInput(value)} handleChange={handleSpeciesChange}/>
 			</div>
 			<PhotoList speciesCode={speciesCode}/>
 		</div>

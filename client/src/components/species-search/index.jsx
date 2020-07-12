@@ -44,18 +44,22 @@ const SpeciesSearch = ({handleChange, handleInputChange, inputValue = '', hideBo
 		setOpen(true);
 	}
 
+	const selectOption = (activeIndex) => {
+		const selectedCode = suggestions[activeIndex].species_code;
+		const selectedLabel = suggestions[activeIndex].common_name;
+		const selectedId = suggestions[activeIndex].id;
+		handleInputChange(selectedLabel);
+		setOpen(false);
+		handleChange({
+			speciesCode: selectedCode,
+			speciesLabel: selectedLabel,
+			speciesId: selectedId,
+		});
+	}
+
 	const handleKeyDown = (e) => {
 		if (e.keyCode === 13) {
-			const selectedCode = suggestions[activeIndex].species_code;
-			const selectedLabel = suggestions[activeIndex].common_name;
-			const selectedId = suggestions[activeIndex].id;
-			handleInputChange(selectedLabel);
-			setOpen(false);
-			handleChange({
-				speciesCode: selectedCode,
-				speciesLabel: selectedLabel,
-				speciesId: selectedId,
-			});
+			selectOption(activeIndex);
 		} else if (e.keyCode === 38) {
 			if (activeIndex === 0) {
 				return;
@@ -72,6 +76,8 @@ const SpeciesSearch = ({handleChange, handleInputChange, inputValue = '', hideBo
 				...state,
 				activeIndex: activeIndex + 1,
 			});
+		} else if (e.keyCode === 27) {
+			setOpen(false);
 		} else {
 			setOpen(true);
 		}
@@ -83,6 +89,11 @@ const SpeciesSearch = ({handleChange, handleInputChange, inputValue = '', hideBo
 	const handleKeyUp = (e) => {
 		if(inputValue.length === 0) {
 			setSuggestions([]);
+			handleChange({
+				speciesCode: undefined,
+				speciesLabel: undefined,
+				speciesId: undefined,
+			});
 		}
 	};
 
@@ -93,6 +104,9 @@ const SpeciesSearch = ({handleChange, handleInputChange, inputValue = '', hideBo
 		setOpen(false);
 	};
 
+	const handleOptionClick = index => {
+		selectOption(index);
+	}
 	const className = 'species-select' + (hideBorder ? ' no-border' : '');
 
 	return(
@@ -107,7 +121,7 @@ const SpeciesSearch = ({handleChange, handleInputChange, inputValue = '', hideBo
 						if (index === activeIndex) {
 							className = 'active';
 						}
-						return <li key={item.id} className={className}>{item.common_name}</li>
+						return <li key={item.id} className={className} onClick={() => handleOptionClick(index)}>{item.common_name}</li>
 					})}
 				</ul>
 			}
