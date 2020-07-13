@@ -5,19 +5,15 @@ import { setTitle } from '../../utils/global';
 import './styles.scss';
 
 function BrowsePage({location}) {
-	const initialState = {
+	const initialState = (location.state && Object.keys(location.state).length > 0) ? {
+		...location.state
+	} : {
 		speciesCode: undefined,
 		speciesLabel: undefined,
 	}
+	
 	const [formState, setState] = useState(initialState);
-	const [speciesInput, setSpeciesInput] = useState('');
-
-	useEffect( () => {
-		if (location.state && Object.keys(location.state).length > 0) {
-			setState({...location.state});
-			setSpeciesInput(location.state.speciesLabel);
-		};
-	}, [location.state]);
+	const [speciesInput, setSpeciesInput] = useState(initialState.speciesLabel);
 
 	useEffect(() => {
 		setTitle("Browse Images");

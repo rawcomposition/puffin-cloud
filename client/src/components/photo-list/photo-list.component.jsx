@@ -8,12 +8,14 @@ function PhotoList({speciesCode, userId, infiniteScroll = true, loadMore = true}
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(false);
 	const [resultsEnd, setResultsEnd] = useState(false);
-	const perPage = 3;
+	const perPage = 6;
 
 	const fetchImages = (offset = 0) => {
 		setLoading(true);
 		axios.get('images', {
 			params: {
+				'user.id': userId,
+				'species_code.species_code': speciesCode,
 				_start: offset,
 				_limit: perPage,
 			}
@@ -22,7 +24,7 @@ function PhotoList({speciesCode, userId, infiniteScroll = true, loadMore = true}
 			if(response.data.length < perPage) {
 				setResultsEnd(true);
 			} 
-			setImages([...images, ...response.data]);
+			setImages(images => ([...images, ...response.data]));
 		})
 		.catch(error => {
 			setError(true);
@@ -41,8 +43,10 @@ function PhotoList({speciesCode, userId, infiniteScroll = true, loadMore = true}
 	}, [images, resultsEnd, loading]);
 
 	useEffect(() => {
+		setImages([]);
+		setResultsEnd(false);
 		fetchImages(0);
-	}, []);
+	}, [speciesCode]);
 
 	const handleLoadMore = () => {
 		fetchImages(images.length);
@@ -62,7 +66,7 @@ function PhotoList({speciesCode, userId, infiniteScroll = true, loadMore = true}
 		<React.Fragment>
 			<div className="photo-grid">
 				{images.map(image => {
-					if(image.file && image.species_code) {
+					if(image.file && image.species) {
 						return <PhotoItem key={image.id} item={image}/>
 					}
 				})}

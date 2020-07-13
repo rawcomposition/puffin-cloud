@@ -43,4 +43,27 @@ module.exports = {
 			}
 		}
 	},
+
+	async find(ctx) {
+		let imagesResponse;
+		if (ctx.query._q) {
+			imagesResponse = await strapi.services.images.search(ctx.query);
+		} else {
+			imagesResponse = await strapi.services.images.find(ctx.query);
+		}
+	
+		const images = imagesResponse.map(image => sanitizeEntity(image, { model: strapi.models.images }));
+
+		return images.filter(image => (!!image.species_code && !!image.file)).map(image => {
+			return {
+				id: image.id,
+				species: {
+					common_name: image.species_code.common_name,
+				},
+				file: {
+					url: image.file.formats.medium.url,
+				},
+			} 
+		})
+	  },
 };
