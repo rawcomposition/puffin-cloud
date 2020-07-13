@@ -1,53 +1,36 @@
 import React, { useEffect, useState } from 'react';
-import { useQuery } from 'react-apollo';
-import gql from 'graphql-tag';
+import axios from 'axios';
 import PhotoItem from '../photo-item/photo-item.component';
 import './photo-list.scss';
 
-const PHOTOS_QUERY = gql`
-	query Images($speciesCode: String, $userId: String, $commonName: String, $limit: Int!, $start: Int!){
-		images(limit: $limit, start: $start, where: {
-			species_code: {
-				species_code: $speciesCode,
-				common_name_contains: $commonName
-			},
-			user: {
-				id: $userId
-			}
-		}){
-			species_code  {
-				common_name,
-				species_code,
-				id
-			},
-			user {
-				username,
-				id,
-			},
-			file {
-				formats,
-				id
-			},
-			created_at,
-			id,
-		}
-	}
-`;
-
 function PhotoList({speciesCode, userId, infiniteScroll = true, loadMore = true}) {
+	const [images, setImages] = useState([]);
+	const [loading, setLoading] = useState(true);
+	const [error, setError] = useState(false);
 	const [resultsEnd, setResultsEnd] = useState(false);
-	const { data = [], fetchMore, loading, error } = useQuery(
-		PHOTOS_QUERY,
-		{
-			variables: {
-				speciesCode,
-				userId,
-				limit: 6,
-				start: 0
-			},
-			fetchPolicy: "cache-and-network"
-		}
-	);
+	const perPage = 3;
+
+	const fetchImages = (offset = 0) => {
+		setLoading(true);
+		axios.get('images', {
+			params: {
+				_start: offset,
+				_limit: perPage,
+			}
+		})
+		.then(response => {
+			if(response.data.length < perPage) {
+				setResultsEnd(true);
+			} 
+			setImages([...images, ...response.data]);
+		})
+		.catch(error => {
+			setError(true);
+		})
+		.then(() => {
+			setLoading(false);
+		});
+	}
 
 	useEffect(() => {
 		if(!infiniteScroll || resultsEnd || loading) return;
@@ -55,24 +38,14 @@ function PhotoList({speciesCode, userId, infiniteScroll = true, loadMore = true}
 		return () => {
 			document.removeEventListener("scroll", handleOnScroll);
 		};
-	}, [data.images, resultsEnd, loading]);
-	
+	}, [images, resultsEnd, loading]);
+
+	useEffect(() => {
+		fetchImages(0);
+	}, []);
+
 	const handleLoadMore = () => {
-		fetchMore({
-			variables: {
-				start: data.images.length
-			},
-			updateQuery: (prev, { fetchMoreResult }) => {
-				if (!fetchMoreResult) return prev;
-				if (fetchMoreResult.images.length < 1) {
-					setResultsEnd(true);
-					return;
-				}
-				return Object.assign({}, prev, {
-					images: [...prev.images, ...fetchMoreResult.images]
-				});
-			}
-		});
+		fetchImages(images.length);
 	}
 
 	const handleOnScroll = () => {
@@ -85,13 +58,10 @@ function PhotoList({speciesCode, userId, infiniteScroll = true, loadMore = true}
 		}
 	};
 
-	const images = data.images || [];
-
 	return (
 		<React.Fragment>
 			<div className="photo-grid">
 				{images.map(image => {
-					console.log(image.file);
 					if(image.file && image.species_code) {
 						return <PhotoItem key={image.id} item={image}/>
 					}
