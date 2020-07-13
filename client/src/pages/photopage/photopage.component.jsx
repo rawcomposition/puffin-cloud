@@ -57,7 +57,7 @@ function PhotoPage({match: {params: {photoId}}}) {
 					</div>
 				</div>
 
-				<img className="map" src="https://maps.googleapis.com/maps/api/staticmap?center=cuyahoga+falls,+ohio&zoom=5&scale=2&size=400x200&maptype=roadmap&key=AIzaSyCAghjHe1CIy0HlkskwUSpZkIvuR2oBMO0&format=jpg&visual_refresh=true&markers=size:small%7Ccolor:0xff0000%7Clabel:1%7Ccuyahoga+falls,+ohio"/>
+				<img className="map" src={`https://maps.googleapis.com/maps/api/staticmap?center=cuyahoga+falls,+ohio&zoom=5&scale=2&size=400x200&maptype=roadmap&key=${process.env.REACT_APP_GOOGLE_MAPS_KEY}&format=jpg&visual_refresh=true&markers=size:small%7Ccolor:0xff0000%7Clabel:1%7Ccuyahoga+falls,+ohio`}/>
 			</div>
 		</div>
 
