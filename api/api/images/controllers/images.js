@@ -31,6 +31,9 @@ module.exports = {
 			},
 			file: {
 				url: image.file.formats.large.url,
+				size: image.file.size,
+				width: image.file.width,
+				height: image.file.height,
 			},
 			user: {
 				first_name: image.user.first_name,

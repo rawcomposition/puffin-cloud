@@ -11,10 +11,14 @@ import { createUploadLink } from 'apollo-upload-client';
 import { ApolloLink, concat } from 'apollo-link';
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import UIProvider from './providers/ui/ui.provider';
-import { getJWT } from './utils/user';
 import axios from 'axios';
+import { getJWT } from './utils/user';
 
 axios.defaults.baseURL = 'http://localhost:1337/';
+const jwt = getJWT();
+if(jwt) {
+	axios.defaults.headers.common['Authorization'] = `Bearer ${jwt}`;
+}
 
 const uploadLink = createUploadLink({
 	uri: 'http://localhost:1337/graphql',
@@ -22,8 +26,6 @@ const uploadLink = createUploadLink({
 		"keep-alive": "true"
 	}
 });
-
-const jwt = getJWT();
 
 const authMiddleware = new ApolloLink((operation, forward) => {
 	operation.setContext({

@@ -1,22 +1,11 @@
 import React, { useContext, useState, useRef, useEffect } from 'react';
 import { Link, useLocation, useHistory } from 'react-router-dom';
-import { Query } from 'react-apollo'
-import gql from 'graphql-tag'
 import { UIContext } from '../../providers/ui/ui.provider';
 import './styles.scss';
 import Avatar from '../avatar';
 import SpeciesSearch from '../species-search';
 import { logout } from '../../utils/user';
-
-const USER_QUERY = gql`
-{
-	self {
-		first_name,
-		id,
-		avatar
-	}
-}
-`
+import axios from 'axios';
 
 function Header() {
 	const history = useHistory();
@@ -34,6 +23,19 @@ function Header() {
 	const { pathname } = useLocation();
 	const isHome = pathname == '/';
 	const node = useRef();
+
+	const [user, setUser] = useState(null);
+
+	useEffect(() => {
+		axios.get('users/me')
+		.then(response => {
+			const user = response.data;
+			setUser(user);
+		})
+		.catch(error => {
+			console.log(error);
+		});
+	}, []);
 
 	useEffect(() => {
 		document.addEventListener("mousedown", handleClick);
@@ -99,39 +101,29 @@ function Header() {
 					</li>
 				</ul>
 				<ul className="nav right">
-					<Query query={USER_QUERY}>
-						{({ loading, error, data }) => {
-							if (loading) return "Loading..."
-							if (error) return `Error! ${error.message}`
-							if (data.self.id) {
-								return (
-									<div className="current-user">
-										<Link className="btn outline" to="/upload">Upload Photos</Link>
-										<div className="dropdown-menu-container" onClick={handleMenuClick} ref={node}>
-											<Avatar url={data.self.avatar}/>
-											<ul className={'dropdown-menu ' + (menuOpen ? 'active' : '')}>
-												<li>
-													<Link className="nav-item" to={'/profile/' + data.self.id}>Profile</Link>
-												</li>
-												<li>
-													<a className="nav-item" onClick={handleLogout}>Logout</a>
-												</li>
-											</ul>
-										</div>
-									</div>
-								);
-							} else {
-								return (
-									<React.Fragment>
-									<Link className="btn outline" to="/sign-up">Contribute</Link>
-										<li>
-											<a className="nav-item" onClick={() => toggleLoginModal()}>Sign In</a>
-										</li>
-									</React.Fragment>
-								);
-							}
-						}}
-					</Query>
+					{(user && user.id) ? (
+						<div className="current-user">
+							<Link className="btn outline" to="/upload">Upload Photos</Link>
+							<div className="dropdown-menu-container" onClick={handleMenuClick} ref={node}>
+								<Avatar url={user.avatar}/>
+								<ul className={'dropdown-menu ' + (menuOpen ? 'active' : '')}>
+									<li>
+										<Link className="nav-item" to={'/profile/' + user.id}>Profile</Link>
+									</li>
+									<li>
+										<a className="nav-item" onClick={handleLogout}>Logout</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+					) : (
+						<React.Fragment>
+						<Link className="btn outline" to="/sign-up">Contribute</Link>
+							<li>
+								<a className="nav-item" onClick={() => toggleLoginModal()}>Sign In</a>
+							</li>
+						</React.Fragment>
+					)}
 				</ul>
 			</div>
 			{ isHome ? (
