@@ -3,25 +3,15 @@ import ImageDropzone from '../../components/image-dropzone';
 import UploadStatus from '../../components/upload-status';
 import UploadableImage from '../../components/uploadable-image';
 import { getJWT } from '../../utils/user';
+import axios from 'axios';
 import './styles.scss';
-import gql from 'graphql-tag';
-import { useMutation } from '@apollo/react-hooks';
 import { setTitle } from '../../utils/global';
-
-const UPLOAD_MUTATION = gql`
-	mutation Upload($file: Upload!) {
-		upload(file: $file) {
-			id,
-		}
-	}
-`;
 
 function UploadPage() {
 	const [images, setImages] = useState([]);
 	const [totalFiles, setTotalFiles] = useState(0);
 	const [uploadStarted, setUploadStarted] = useState(false);
 	const [remainingUploads, setRemainingUploads] = useState(null);
-	const [uploadImage] = useMutation(UPLOAD_MUTATION);
 
 	//Todo: images is stale (and empty) when this runs :(
 	//useEffect(() => {
@@ -78,18 +68,18 @@ function UploadPage() {
 			setUploadStarted(true);
 			setRemainingUploads(totalImages);
 		}
+
 		for (const [index, value] of images.entries()) {
 			updateImageStatus('loading', index);
-			await uploadImage({
-				variables: {
-					file: value.file
-				}
-			}).then(response => {
+			const formData = new FormData();
+			formData.append("files", value.file);
+			axios.post('upload', formData)
+			.then(response => {
 				setImages(images => {
 					let imagesCopy = [...images];
 					imagesCopy[index] = {
 						...imagesCopy[index],
-						file_id: response.data.upload.id,
+						file_id: response.data[0].id,
 					}
 					return imagesCopy;
 				});
@@ -114,21 +104,10 @@ function UploadPage() {
 			alert("Please choose a species and location for each image");
 			return false;
 		}
-		const jwt = getJWT();
-		const requestOptions = {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-				'authorization': jwt ? 'Bearer ' + jwt : '',
-				
-			},
-			body: JSON.stringify(data),
-		};
-		fetch('http://localhost:1337/bulkimages', requestOptions)
-			.then(response => response.json())
-			.then(data => {
-				alert("success");
-			});
+		axios.post('bulkimages', data)
+		.then(response => {
+			window.location.href = '/';
+		});
 	}
 
 	return (
