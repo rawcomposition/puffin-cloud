@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
 function UserStats({userId}) {
 	const initialState = {
@@ -9,10 +10,9 @@ function UserStats({userId}) {
 	const [stats, setStats] = useState(initialState);
 	
 	useEffect(() => {
-		fetch(process.env.REACT_APP_BASE_URL + '/stats/user/' + userId)
-		.then(response => response.json())
-		.then( data => {
-			setStats(data);
+		axios.get('stats/user/' + userId)
+		.then(response => {
+			setStats(response.data);
 		})
 		.catch(err => {});
 	}, []);

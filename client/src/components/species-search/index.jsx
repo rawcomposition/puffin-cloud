@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useDebounce } from 'use-debounce';
 import './styles.scss';
+import axios from 'axios';
 
 const SpeciesSearch = ({handleChange, handleInputChange, inputValue = '', hideBorder}) => {
 
@@ -29,12 +30,16 @@ const SpeciesSearch = ({handleChange, handleInputChange, inputValue = '', hideBo
 	}, []);
 	
 	const getAsyncOptions = (searchValue) => {
-		const url = process.env.REACT_APP_BASE_URL + '/species-codes?category=species&_limit=15&common_name_contains=' + searchValue;
-		return fetch(url)
-		.then(response => response.json())
-		.then( data => {
-			if(data.length > 0) {
-				setSuggestions(data);
+		axios.get('species-codes', {
+			params: {
+				category: "species",
+				_limit: 15,
+				common_name_contains: searchValue,
+			}
+		})
+		.then(response => {
+			if(response.data.length > 0) {
+				setSuggestions(response.data);
 			}
 		})
 		.catch(err => {});

@@ -2,7 +2,6 @@ import React, {useCallback, useState, useEffect} from 'react';
 import ImageDropzone from '../../components/image-dropzone';
 import UploadStatus from '../../components/upload-status';
 import UploadableImage from '../../components/uploadable-image';
-import { getJWT } from '../../utils/user';
 import axios from 'axios';
 import './styles.scss';
 import { setTitle } from '../../utils/global';
