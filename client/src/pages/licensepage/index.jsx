@@ -1,37 +1,33 @@
-import React, { useEffect } from 'react';
-import { Query } from 'react-apollo'
-import gql from 'graphql-tag'
+import React, { useEffect, useState } from 'react';
 import { setTitle } from '../../utils/global';
 import Error404 from '../error-404';
 import ReactMarkdown from 'react-markdown';
-
-const PAGE_QUERY = gql`
-{
-	license {
-		content,
-		id
-	}
-}
-`
+import axios from 'axios';
 
 function LicensePage() {
+	const [content, setContent] = useState(null);
+	const [loading, setLoading] = useState(true);
+	const [error, setError] = useState(false);
+
 	useEffect(() => {
 		setTitle("License");
+		axios.get('license')
+		.then(response => {
+			setContent(response.data.content);
+		})
+		.catch(error => {
+			setError(true);
+		})
+		.then(() => {
+			setLoading(false);
+		})
 	}, []);
 
+	if (loading) return "loading...";
+	if (error || !content) return <Error404/>;
 	return (
 		<div className="container compact single-page license-page">
-			<Query query={PAGE_QUERY}>
-				{({ loading, error, data }) => {
-					if (loading) return "Loading..."
-					if (error || ! data.license) return <Error404/>
-					if (data.license) {
-						return (
-							<ReactMarkdown source={data.license.content} />
-						);
-					}
-				}}
-			</Query>
+			<ReactMarkdown source={content} />
 		</div>
 	);
 }

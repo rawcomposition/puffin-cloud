@@ -1,37 +1,33 @@
-import React, { useEffect } from 'react';
-import { Query } from 'react-apollo'
-import gql from 'graphql-tag'
+import React, { useEffect, useState } from 'react';
 import { setTitle } from '../../utils/global';
 import Error404 from '../error-404';
 import ReactMarkdown from 'react-markdown';
-
-const PAGE_QUERY = gql`
-{
-	about {
-		content,
-		id
-	}
-}
-`
+import axios from 'axios';
 
 function AboutPage() {
+	const [content, setContent] = useState(null);
+	const [loading, setLoading] = useState(true);
+	const [error, setError] = useState(false);
+
 	useEffect(() => {
 		setTitle("About");
+		axios.get('about')
+		.then(response => {
+			setContent(response.data.content);
+		})
+		.catch(error => {
+			setError(true);
+		})
+		.then(() => {
+			setLoading(false);
+		})
 	}, []);
 
+	if (loading) return "loading...";
+	if (error || !content) return <Error404/>;
 	return (
 		<div className="container compact single-page about-page">
-			<Query query={PAGE_QUERY}>
-				{({ loading, error, data }) => {
-					if (loading) return "Loading..."
-					if (error || ! data.about) return <Error404/>
-					if (data.about) {
-						return (
-							<ReactMarkdown source={data.about.content} />
-						);
-					}
-				}}
-			</Query>
+			<ReactMarkdown source={content} />
 		</div>
 	);
 }
