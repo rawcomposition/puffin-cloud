@@ -4,12 +4,6 @@ import './index.css'
 import App from './App'
 import { BrowserRouter } from 'react-router-dom';
 import * as serviceWorker from './serviceWorker'
-import { ApolloProvider } from 'react-apollo'
-import { ApolloClient } from 'apollo-client'
-import { createHttpLink } from 'apollo-link-http';
-import { createUploadLink } from 'apollo-upload-client';
-import { ApolloLink, concat } from 'apollo-link';
-import { InMemoryCache } from 'apollo-cache-inmemory'
 import UIProvider from './providers/ui/ui.provider';
 import axios from 'axios';
 import { getJWT } from './utils/user';
@@ -20,36 +14,12 @@ if(jwt) {
 	axios.defaults.headers.common['Authorization'] = `Bearer ${jwt}`;
 }
 
-const uploadLink = createUploadLink({
-	uri: 'http://localhost:1337/graphql',
-	headers: {
-		"keep-alive": "true"
-	}
-});
-
-const authMiddleware = new ApolloLink((operation, forward) => {
-	operation.setContext({
-		headers: {
-			authorization: jwt ? 'Bearer ' + jwt : '',
-		}
-	});
-
-	return forward(operation);
-});
-
-const client = new ApolloClient({
-	link: concat(authMiddleware, uploadLink),
-	cache: new InMemoryCache()
-});
-
 ReactDOM.render(
-	<ApolloProvider client={client}>
-		<UIProvider>
-			<BrowserRouter>
-				<App />
-			</BrowserRouter>
-		</UIProvider>
-	</ApolloProvider>,
+	<UIProvider>
+		<BrowserRouter>
+			<App />
+		</BrowserRouter>
+	</UIProvider>,
   document.getElementById('root')
 )
 
