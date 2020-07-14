@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import './styles.scss';
 
 function Stats() {
@@ -11,12 +12,11 @@ function Stats() {
 	const [stats, setStats] = useState(initialState);
 	
 	useEffect(() => {
-		fetch(process.env.REACT_APP_BASE_URL + '/stats')
-		.then(response => response.json())
-		.then( data => {
-			setStats(data);
+		axios.get('stats')
+		.then(response => {
+			setStats(response.data);
 		})
-		.catch(err => {});
+		.catch(error => {});
 	}, []);
 	
 	return (
