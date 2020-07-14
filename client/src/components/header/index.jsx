@@ -4,7 +4,7 @@ import { UIContext } from '../../providers/ui/ui.provider';
 import './styles.scss';
 import Avatar from '../avatar';
 import SpeciesSearch from '../species-search';
-import { logout } from '../../utils/user';
+import { logout, isLoggedIn } from '../../utils/user';
 import axios from 'axios';
 
 function Header() {
@@ -101,7 +101,7 @@ function Header() {
 					</li>
 				</ul>
 				<ul className="nav right">
-					{(user && user.id) ? (
+					{(isLoggedIn() && user && user.id) ? (
 						<div className="current-user">
 							<Link className="btn outline" to="/upload">Upload Photos</Link>
 							<div className="dropdown-menu-container" onClick={handleMenuClick} ref={node}>

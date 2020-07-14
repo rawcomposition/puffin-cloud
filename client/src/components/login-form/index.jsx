@@ -1,20 +1,7 @@
 import React, { useState } from 'react';
-import gql from 'graphql-tag';
-import { useMutation } from '@apollo/react-hooks';
+import axios from 'axios';
 import { Link } from 'react-router-dom';
 import './styles.scss';
-
-const LOGIN_MUTATION = gql`
-	mutation Login($email: String!, $password: String!) {
-		login(input: {
-			identifier: $email,
-			password: $password,
-			provider: "local",
-		}) {
-			jwt
-		}
-	}
-`;
 
 const initialState = {
 	email: '',
@@ -22,27 +9,31 @@ const initialState = {
 }
 
 function LoginForm() {
-	const [ login, { loading: mutationLoading } ] = useMutation(LOGIN_MUTATION);
-
 	const [formState, setFormState] = useState(initialState);
 	const [formError, setFormError] = useState(null);
+	const [loading, setLoading] = useState(false);
 
 	const { email, password } = formState;
 	
 	const handleLogin = () => {
+		setLoading(true);
 		setFormError(false);
-		login({
-			variables: {
-				email: email,
-				password: password,
-				provider: 'local',
+		axios.post('auth/local', {
+			identifier: email,
+			password: password,
+		})
+		.then(response => {
+			const { jwt } = response.data;
+			if(typeof jwt === 'string') {
+				localStorage.setItem('jwt', jwt);
 			}
-		}).then(response => {
-			const { jwt } = response.data.login;
-			localStorage.setItem('jwt', jwt);
 			window.location.href = '/';
-		}).catch(e => {
+		})
+		.catch(error => {
 			setFormError(true);
+		})
+		.then(() => {
+			setLoading(false);
 		});
 	}
 	
@@ -56,7 +47,7 @@ function LoginForm() {
 		handleLogin();
 	}
 
-	const submitDisabled = !email || !password || mutationLoading;
+	const submitDisabled = !email || !password || loading;
 
 	return (
 		<form onSubmit={handleSubmit} className="login-form">
