@@ -31,7 +31,11 @@ function SignupForm() {
 			window.location.href = '/';
 		})
 		.catch(error => {
-			setFormError(true);
+			let message = "Error creating account";
+			try {
+				message = error.response.data.message[0].messages[0].message;
+			} catch (error) {}
+			setFormError(message);
 		})
 		.then(() => {
 			setLoading(false);
@@ -51,7 +55,7 @@ function SignupForm() {
 	const submitDisabled = !email || !password || loading;
 	return (
 		<form onSubmit={handleSubmit} className="signup-form">
-			{formError && <div className="form-error">Error creating account</div>}
+			{formError && <div className="form-error">{formError}</div>}
 			<input type="text" onChange={handleInputChange} name="email" value={email} placeholder="Email"/>
 			<input type="password" onChange={handleInputChange} placeholder="Password" name="password" value={password}/>
 			<button className={'m-auto btn primary' + (submitDisabled ? ' disabled' : '')} disabled={submitDisabled}>Create Account</button>

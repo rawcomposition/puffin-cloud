@@ -30,7 +30,11 @@ function LoginForm() {
 			window.location.href = '/';
 		})
 		.catch(error => {
-			setFormError(true);
+			let message = "Error signing in. Please check your credentials and try again.";
+			try {
+				message = error.response.data.message[0].messages[0].message;
+			} catch (error) {}
+			setFormError(message);
 		})
 		.then(() => {
 			setLoading(false);
@@ -51,7 +55,7 @@ function LoginForm() {
 
 	return (
 		<form onSubmit={handleSubmit} className="login-form">
-			{formError && <div className="form-error">Unable to login. Please double check your email and password.</div>}
+			{formError && <div className="form-error">{formError}</div>}
 			<input type="text" onChange={handleInputChange} name="email" value={email} placeholder="Email"/>
 			<input type="password" onChange={handleInputChange} placeholder="Password" name="password" value={password}/>
 			<div className="button-container">
