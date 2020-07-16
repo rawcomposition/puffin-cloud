@@ -33,7 +33,7 @@ function BrowsePage({location}) {
 			<div className="filter-menu">
 				<SpeciesSearch defaultValue={speciesLabel} inputValue={speciesInput} handleInputChange={(value) => setSpeciesInput(value)} handleChange={handleSpeciesChange}/>
 			</div>
-			<PhotoList speciesCode={speciesCode}/>
+			<PhotoList speciesCode={speciesCode} showLoader={true}/>
 		</div>
 	);
 }

@@ -3,6 +3,7 @@ import { setTitle } from '../../utils/global';
 import Error404 from '../error-404';
 import ReactMarkdown from 'react-markdown';
 import axios from 'axios';
+import Loader from '../../components/loader';
 
 function AboutPage() {
 	const [content, setContent] = useState(null);
@@ -23,7 +24,7 @@ function AboutPage() {
 		})
 	}, []);
 
-	if (loading) return "loading...";
+	if (loading) return <Loader/>
 	if (error || !content) return <Error404/>;
 	return (
 		<div className="container compact single-page about-page">

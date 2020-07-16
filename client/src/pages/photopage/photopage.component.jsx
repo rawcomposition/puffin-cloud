@@ -5,6 +5,7 @@ import './photopage.scss';
 import Avatar from '../../components/avatar';
 import { setTitle } from '../../utils/global';
 import Error404 from '../error-404';
+import Loader from '../../components/loader';
 
 function PhotoPage({match: {params: {photoId}}}) {
 
@@ -28,7 +29,7 @@ function PhotoPage({match: {params: {photoId}}}) {
 		});
 	}, []);
 
-	if (loading) return "loading...";
+	if (loading) return <Loader/>;
 	if (error || !image) return <Error404/>;
 	
 	return (

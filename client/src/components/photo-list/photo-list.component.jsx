@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import PhotoItem from '../photo-item/photo-item.component';
+import Loader from '../loader';
 import './photo-list.scss';
 
-function PhotoList({speciesCode, userId, infiniteScroll = true, loadMore = true}) {
+function PhotoList({speciesCode, userId, infiniteScroll = true, loadMore = true, showLoader = false}) {
 	const [images, setImages] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(false);
@@ -71,7 +72,8 @@ function PhotoList({speciesCode, userId, infiniteScroll = true, loadMore = true}
 					}
 				})}
 			</div>
-			{loading ? 'Loading...' : ''}
+			{loading && showLoader ? <Loader/> : ''}
+			{loading && !showLoader ? 'Loading...' : ''}
 			{error ? `Error! ${error.message}` : ''}
 			{(loadMore && !resultsEnd && !loading && images.length > 0) &&
 				<p className="text-center">

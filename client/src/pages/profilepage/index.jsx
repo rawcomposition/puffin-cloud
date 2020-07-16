@@ -5,6 +5,7 @@ import UserStats from '../../components/user-stats';
 import { setTitle } from '../../utils/global';
 import Error404 from '../error-404';
 import axios from 'axios';
+import Loader from '../../components/loader';
 import './styles.scss';
 
 function ProfilePage({match: {params: {userId}}}) {
@@ -26,7 +27,7 @@ function ProfilePage({match: {params: {userId}}}) {
 		})
 	}, []);
 
-	if (loading) return "loading...";
+	if (loading) return <Loader/>;
 	if (error || !user) return <Error404/>;
 	return (
 		<div className="container profile-page">
