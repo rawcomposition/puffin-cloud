@@ -4,12 +4,11 @@ import PhotoItem from '../photo-item/photo-item.component';
 import Loader from '../loader';
 import './photo-list.scss';
 
-function PhotoList({speciesCode, userId, infiniteScroll = true, loadMore = true, showLoader = false}) {
+function PhotoList({speciesCode, userId, infiniteScroll = true, loadMore = true, showLoader = false, perPage = 21}) {
 	const [images, setImages] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(false);
 	const [resultsEnd, setResultsEnd] = useState(false);
-	const perPage = 6;
 
 	const fetchImages = (offset = 0) => {
 		setLoading(true);
@@ -19,6 +18,7 @@ function PhotoList({speciesCode, userId, infiniteScroll = true, loadMore = true,
 				'species_code.species_code': speciesCode,
 				_start: offset,
 				_limit: perPage,
+				_sort: 'created_at:DESC'
 			}
 		})
 		.then(response => {
@@ -74,7 +74,7 @@ function PhotoList({speciesCode, userId, infiniteScroll = true, loadMore = true,
 			</div>
 			{loading && showLoader ? <Loader/> : ''}
 			{loading && !showLoader ? 'Loading...' : ''}
-			{error ? `Error! ${error.message}` : ''}
+			{error ? 'Error loading images' : ''}
 			{(loadMore && !resultsEnd && !loading && images.length > 0) &&
 				<p className="text-center">
 					<button className="btn m2" onClick={handleLoadMore}>Load More</button>

@@ -9,7 +9,7 @@ function HomePage() {
 		<React.Fragment>
 			<div className="container">
 				<h3 className="headline text-center">Latest Images</h3>
-				<PhotoList infiniteScroll={false} loadMore={false}/>
+				<PhotoList infiniteScroll={false} loadMore={false} perPage="6"/>
 				<p className="text-center mt-4">
 					<Link className="btn" to="/browse">View More</Link>
 				</p>
