@@ -5,8 +5,3 @@ export const getJWT = () => {
 export const isLoggedIn = () => {
 	return !! getJWT();
 }
-
-export const logout = () => {
-	localStorage.removeItem('jwt');
-	window.location.href = '/';
-}

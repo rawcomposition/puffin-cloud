@@ -5,12 +5,12 @@ import { UserContext } from '../../providers/user/user.provider';
 import './styles.scss';
 import Avatar from '../avatar';
 import SpeciesSearch from '../species-search';
-import { logout, isLoggedIn } from '../../utils/user';
+import { isLoggedIn } from '../../utils/user';
 
 function Header() {
 	const history = useHistory();
 	const { toggleLoginModal } = useContext(UIContext);
-	const { currentUser } = useContext(UserContext);
+	const { currentUser, setCurrentUser } = useContext(UserContext);
 	const initialState = {
 		speciesLabel: '',
 		speciesCode: '',
@@ -52,7 +52,9 @@ function Header() {
 	}
 
 	const handleLogout = (e) => {
-		logout();
+		localStorage.removeItem('jwt');
+		setCurrentUser({});
+		window.location.href = '/';
 	}
 
 	const handleMenuClick = (e) => {
