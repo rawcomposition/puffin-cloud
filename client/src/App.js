@@ -1,5 +1,6 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Switch, Route } from 'react-router-dom';
+import { UserContext } from './providers/user/user.provider';
 import Header from './components/header';
 import Footer from './components/footer';
 import LoginModal from './components/login-modal/login-modal.component';
@@ -16,8 +17,19 @@ import SignupPage from './pages/signuppage';
 import Error404 from './pages/error-404';
 import './_reboot.scss';
 import './App.scss';
+import axios from 'axios';
 
 function App() {
+	const { setCurrentUser } = useContext(UserContext);
+	useEffect(() => {
+		axios.get('users/me')
+		.then(response => {
+			const user = response.data;
+			setCurrentUser(user);
+		})
+		.catch(error => {});
+	}, []);
+
   return (
 	<React.Fragment>
 		<Header/>

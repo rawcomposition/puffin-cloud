@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { useHistory } from "react-router-dom";
+import { UserContext } from '../../providers/user/user.provider';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import './styles.scss';
@@ -9,9 +11,12 @@ const initialState = {
 }
 
 function SignupForm() {
+	const history = useHistory();
+	const {setCurrentUser} = useContext(UserContext);
 	const [formState, setFormState] = useState(initialState);
 	const [formError, setFormError] = useState(null);
 	const [loading, setLoading] = useState(false);
+	const [success, setSuccess] = useState(false);
 
 	const { email, password } = formState;
 	
@@ -27,8 +32,12 @@ function SignupForm() {
 			const { jwt } = response.data;
 			if(typeof jwt === 'string') {
 				localStorage.setItem('jwt', jwt);
+				setCurrentUser(response.data.user);
+				setSuccess(true);
 			}
-			window.location.href = '/';
+			setTimeout(() => {
+				history.push('/');
+			}, 1000);
 		})
 		.catch(error => {
 			let message = "Error creating account";
@@ -56,11 +65,12 @@ function SignupForm() {
 	return (
 		<form onSubmit={handleSubmit} className="signup-form">
 			{formError && <div className="form-error">{formError}</div>}
+			{success && <div className="form-success">Sign up successful</div>}
 			<input type="text" onChange={handleInputChange} name="email" value={email} placeholder="Email"/>
 			<input type="password" onChange={handleInputChange} placeholder="Password" name="password" value={password}/>
 			<button className={'m-auto btn primary' + (submitDisabled ? ' disabled' : '')} disabled={submitDisabled}>Create Account</button>
 			<div className="text-center text-muted mt-2">
-				Already have an account? <Link to="/signup">Signup</Link>
+					Already have an account? <Link to="/signup">Signup</Link>
 			</div>
 		</form>
 	);

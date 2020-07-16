@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { useHistory } from "react-router-dom";
+import { UserContext } from '../../providers/user/user.provider';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import './styles.scss';
@@ -9,9 +11,12 @@ const initialState = {
 }
 
 function LoginForm() {
+	const history = useHistory();
+	const {setCurrentUser} = useContext(UserContext);
 	const [formState, setFormState] = useState(initialState);
 	const [formError, setFormError] = useState(null);
 	const [loading, setLoading] = useState(false);
+	const [success, setSuccess] = useState(false);
 
 	const { email, password } = formState;
 	
@@ -26,8 +31,12 @@ function LoginForm() {
 			const { jwt } = response.data;
 			if(typeof jwt === 'string') {
 				localStorage.setItem('jwt', jwt);
+				setCurrentUser(response.data.user);
+				setSuccess(true);
 			}
-			window.location.href = '/';
+			setTimeout(() => {
+				history.push('/');
+			}, 1000);
 		})
 		.catch(error => {
 			let message = "Error signing in. Please check your credentials and try again.";
@@ -56,6 +65,7 @@ function LoginForm() {
 	return (
 		<form onSubmit={handleSubmit} className="login-form">
 			{formError && <div className="form-error">{formError}</div>}
+			{success && <div className="form-success">Login successful</div>}
 			<input type="text" onChange={handleInputChange} name="email" value={email} placeholder="Email"/>
 			<input type="password" onChange={handleInputChange} placeholder="Password" name="password" value={password}/>
 			<div className="button-container">

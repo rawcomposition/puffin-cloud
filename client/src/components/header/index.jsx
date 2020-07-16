@@ -1,16 +1,16 @@
 import React, { useContext, useState, useRef, useEffect } from 'react';
 import { Link, useLocation, useHistory } from 'react-router-dom';
 import { UIContext } from '../../providers/ui/ui.provider';
+import { UserContext } from '../../providers/user/user.provider';
 import './styles.scss';
 import Avatar from '../avatar';
 import SpeciesSearch from '../species-search';
 import { logout, isLoggedIn } from '../../utils/user';
-import axios from 'axios';
 
 function Header() {
 	const history = useHistory();
 	const { toggleLoginModal } = useContext(UIContext);
-
+	const { currentUser } = useContext(UserContext);
 	const initialState = {
 		speciesLabel: '',
 		speciesCode: '',
@@ -23,20 +23,7 @@ function Header() {
 	const { pathname } = useLocation();
 	const isHome = pathname == '/';
 	const node = useRef();
-
-	const [user, setUser] = useState(null);
-
-	useEffect(() => {
-		axios.get('users/me')
-		.then(response => {
-			const user = response.data;
-			setUser(user);
-		})
-		.catch(error => {
-			console.log(error);
-		});
-	}, []);
-
+	
 	useEffect(() => {
 		document.addEventListener("mousedown", handleClick);
 		return () => {
@@ -101,14 +88,14 @@ function Header() {
 					</li>
 				</ul>
 				<ul className="nav right">
-					{(isLoggedIn() && user && user.id) ? (
+					{(isLoggedIn() && currentUser && currentUser.id) ? (
 						<div className="current-user">
 							<Link className="btn outline" to="/upload">Upload Photos</Link>
 							<div className="dropdown-menu-container" onClick={handleMenuClick} ref={node}>
-								<Avatar url={user.avatar}/>
+								<Avatar url={currentUser.avatar}/>
 								<ul className={'dropdown-menu ' + (menuOpen ? 'active' : '')}>
 									<li>
-										<Link className="nav-item" to={'/profile/' + user.id}>Profile</Link>
+										<Link className="nav-item" to={'/profile/' + currentUser.id}>Profile</Link>
 									</li>
 									<li>
 										<a className="nav-item" onClick={handleLogout}>Logout</a>
