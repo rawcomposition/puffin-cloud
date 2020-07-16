@@ -15,6 +15,9 @@ module.exports = {
 				user: ctx.state.user.id,
 				file: image.file_id,
 				species_code: image.species_code_id,
+				lat: image.lat,
+				lng: image.lng,
+				address: image.address
 			});
 		}
 		return {};
@@ -26,8 +29,12 @@ module.exports = {
 		const image = sanitizeEntity(imageData, { model: strapi.models.images });
 		return {
 			id: image.id,
+			lat: image.lat,
+			lng: image.lng,
+			address: image.address,
 			species: {
 				common_name: image.species_code.common_name,
+				scientific_name: image.species_code.scientific_name,
 			},
 			file: {
 				url: image.file.formats.large.url,
@@ -38,7 +45,7 @@ module.exports = {
 			user: {
 				first_name: image.user.first_name,
 				last_name: image.user.last_name,
-				avatar_url: 'https://www.gravatar.com/avatar/' + crypto.MD5(image.user.email).toString() + '?d=mm&size=120',
+				avatar_url: image.user.avatar,
 				id: image.user.id
 			}
 		}
@@ -54,16 +61,16 @@ module.exports = {
 	
 		const images = imagesResponse.map(image => sanitizeEntity(image, { model: strapi.models.images }));
 
-		return images.filter(image => (!!image.species_code && !!image.file)).map(image => {
+		return images.map(image => {
 			return {
 				id: image.id,
 				species: {
-					common_name: image.species_code.common_name,
+					common_name: image.species_code ? image.species_code.common_name : "Uknown",
 				},
 				file: {
-					url: image.file.formats.medium.url,
+					url: image.file ? image.file.formats.medium.url : null,
 				},
-			} 
+			}
 		})
 	  },
 };

@@ -1,0 +1,35 @@
+.autocomplete-dropdown-container {
+	background-color: white;
+	box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 4px 11px rgba(0, 0, 0, 0.1);
+	border-radius: 4px;
+	padding: 2px 0;
+	border: solid 1px #e6e6e6;
+	position: absolute;
+	left: 0;
+	top: 100%;
+	z-index: 1;
+
+	&:empty {
+		display: none;
+	}
+
+	.suggestion-item {
+		border-bottom: 1px solid #eee;
+		padding: 3px 6px;
+		font-size: 13px;
+		
+		.secondary-text {
+			margin-left: 3px;
+			font-size: 11px;
+			color: #777;
+		}
+		&.active {
+			background-color: #DEEBFF;
+			cursor: pointer;
+		}
+
+		&:last-child {
+			border-bottom: none;
+		}
+	}
+}

@@ -1,12 +1,16 @@
-import React, {useCallback, useState, useEffect} from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 import ImageDropzone from '../../components/image-dropzone';
 import UploadStatus from '../../components/upload-status';
 import UploadableImage from '../../components/uploadable-image';
+import { UserContext } from '../../providers/user/user.provider';
+import { useHistory } from "react-router-dom";
 import axios from 'axios';
 import './styles.scss';
 import { setTitle } from '../../utils/global';
 
 function UploadPage() {
+	const { currentUser } = useContext(UserContext);
+	const history = useHistory();
 	const [images, setImages] = useState([]);
 	const [totalFiles, setTotalFiles] = useState(0);
 	const [uploadStarted, setUploadStarted] = useState(false);
@@ -46,6 +50,16 @@ function UploadPage() {
 			...imagesCopy[targetIndex],
 			code: speciesCode,
 			species_id: speciesId,
+		}
+		setImages(imagesCopy);
+	}
+
+	const handleLocationChange = (data, targetIndex) => {
+		console.log(data);
+		let imagesCopy = [...images];
+		imagesCopy[targetIndex] = {
+			...imagesCopy[targetIndex],
+			...data
 		}
 		setImages(imagesCopy);
 	}
@@ -96,7 +110,10 @@ function UploadPage() {
 			}
 			return {
 				species_code_id: image.species_id,
-				file_id: image.file_id
+				file_id: image.file_id,
+				lat: image.lat.toString(),
+				lng: image.lng.toString(),
+				address: image.address,
 			}
 		});
 		if(error) {
@@ -105,7 +122,7 @@ function UploadPage() {
 		}
 		axios.post('bulkimages', data)
 		.then(response => {
-			window.location.href = '/';
+			history.push('/profile/' + currentUser.id);
 		});
 	}
 
@@ -120,7 +137,7 @@ function UploadPage() {
 					<ImageDropzone handleImageAdd={handleDropzoneImageAdd} handleSetTotalFiles={handleSetTotalFiles}/>
 				}
 				{images.map((image, index) => (
-					<UploadableImage key={index} image={image} index={index} handleSpeciesChange={handleSpeciesChange}/>
+					<UploadableImage key={index} image={image} index={index} handleSpeciesChange={handleSpeciesChange} handleLocationChange={handleLocationChange}/>
 				))}
 			</div>
 		</div>

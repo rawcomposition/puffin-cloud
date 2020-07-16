@@ -24,6 +24,15 @@
       ],
       "plugin": "upload",
       "required": false
+    },
+    "lat": {
+      "type": "string"
+    },
+    "lng": {
+      "type": "string"
+    },
+    "address": {
+      "type": "string"
     }
   }
 }

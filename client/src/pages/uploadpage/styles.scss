@@ -42,7 +42,10 @@
 				margin: 0;
 				border-radius: 0;
 				box-shadow: none;
-				font-size: 1rem;
+				font-size: 14px;
+				line-height: 1em;
+				border-top: none;
+				padding: 8px 10px;
 
 				&:last-child {
 					border-top: none;
@@ -74,6 +77,10 @@
 					background: #dc3545;
 					color: white;
 				}
+			}
+			.species-select .suggestions {
+				font-size: 14px;
+				top: 33px;
 			}
 		}
 	}

@@ -2,14 +2,18 @@
 	display: flex;
 	margin-top: 3rem;
 
-	.photo-container img {
-		width: 100%;
-		border-radius: 6px;
-		margin-bottom: 1rem;
+	.photo-container {
+		flex: 1;
+
+		img {
+			width: 100%;
+			border-radius: 6px;
+			margin-bottom: 1rem;
+		}
 	}
 
 	.sidebar {
-		width: 400px;
+		width: 300px;
 		margin-left: 3rem;
 
 		.download-button {
@@ -56,7 +60,7 @@
 	.map {
 		width: 100%;
 		border-radius: 6px;
-		margin-bottom: 2rem;
+		margin-bottom: 1rem;
 	}
 }
 
