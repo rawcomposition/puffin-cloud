@@ -15,7 +15,7 @@ import LoginPage from './pages/loginpage';
 import SignupPage from './pages/signuppage';
 import Error404 from './pages/error-404';
 import './_reboot.scss';
-import './App.scss';
+import './styles.scss';
 import axios from 'axios';
 
 function App() {
@@ -32,18 +32,20 @@ function App() {
   return (
 	<React.Fragment>
 		<Header/>
-		<Switch>
-          <Route exact path='/' component={HomePage}/>
-		  <Route path='/photo/:photoId' component={PhotoPage}/>
-		  <Route path='/profile/:userId' component={ProfilePage}/>
-		  <Route path='/browse' component={BrowsePage}/>
-		  <Route path='/about' component={AboutPage}/>
-		  <Route path='/license' component={LicensePage}/>
-		  <Route path ='/login' component={LoginPage}/>
-		  <Route path='/sign-up' component={SignupPage}/>
-		  <PrivateRoute path='/upload' component={UploadPage}/>
-		  <Route component={Error404}/>
-		</Switch>
+		<div className="page-container">
+			<Switch>
+			<Route exact path='/' component={HomePage}/>
+			<Route path='/photo/:photoId' component={PhotoPage}/>
+			<Route path='/profile/:userId' component={ProfilePage}/>
+			<Route path='/browse' component={BrowsePage}/>
+			<Route path='/about' component={AboutPage}/>
+			<Route path='/license' component={LicensePage}/>
+			<Route path ='/login' component={LoginPage}/>
+			<Route path='/sign-up' component={SignupPage}/>
+			<PrivateRoute path='/upload' component={UploadPage}/>
+			<Route component={Error404}/>
+			</Switch>
+		</div>
 		<Footer/>
 	</React.Fragment>
   );
