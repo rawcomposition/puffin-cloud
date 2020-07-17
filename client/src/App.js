@@ -8,6 +8,7 @@ import PhotoPage from './pages/photopage/photopage.component';
 import BrowsePage from './pages/browsepage';
 import UploadPage from './pages/uploadpage';
 import ProfilePage from './pages/profilepage';
+import AccountPage from './pages/accountpage';
 import AboutPage from './pages/aboutpage';
 import LicensePage from './pages/licensepage';
 import PrivateRoute from './components/private-route';
@@ -37,6 +38,7 @@ function App() {
 			<Route exact path='/' component={HomePage}/>
 			<Route path='/photo/:photoId' component={PhotoPage}/>
 			<Route path='/profile/:userId' component={ProfilePage}/>
+			<Route path='/account' component={AccountPage}/>
 			<Route path='/browse' component={BrowsePage}/>
 			<Route path='/about' component={AboutPage}/>
 			<Route path='/license' component={LicensePage}/>

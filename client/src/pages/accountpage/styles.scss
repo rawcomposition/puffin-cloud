@@ -1,0 +1,51 @@
+.account-page {
+	display: flex;
+	margin: 3rem 0;
+	max-width: 800px;
+
+	.avatar {
+		margin-right: 1rem;
+		float: left;
+	}
+
+	form {
+		width: 100%;
+
+		label {
+			font-weight: 500;
+			font-size: .85em;
+			width: 100%;
+			margin-bottom: 5px;
+			line-height: 1.5em;
+		}
+
+		input {
+			margin-top: 5px;
+		}
+	}
+
+	.menu {
+		height: 100%;
+		border: solid 1px #eee;
+		list-style-type: none;
+		padding: 0;
+		margin-right: 3rem;
+		background: white;
+		border-radius: 6px;
+		min-width: 200px;
+
+		li {
+			padding: 12px 16px;
+			cursor: pointer;
+			border-bottom: solid 1px #eee;
+
+			&:hover {
+				background: #fafbfc;
+			}
+
+			&.active {
+				border-left: solid 2px #d25322;
+			}
+		}
+	}
+}
