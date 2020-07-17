@@ -4,7 +4,6 @@ import './index.css'
 import App from './App'
 import { BrowserRouter } from 'react-router-dom';
 import * as serviceWorker from './serviceWorker'
-import UIProvider from './providers/ui/ui.provider';
 import UserProvider from './providers/user/user.provider';
 import axios from 'axios';
 import { getJWT } from './utils/user';
@@ -16,13 +15,11 @@ if(jwt) {
 }
 
 ReactDOM.render(
-	<UIProvider>
-		<UserProvider>
-			<BrowserRouter>
-				<App />
-			</BrowserRouter>
-		</UserProvider>
-	</UIProvider>,
+	<UserProvider>
+		<BrowserRouter>
+			<App />
+		</BrowserRouter>
+	</UserProvider>,
   document.getElementById('root')
 )
 

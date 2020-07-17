@@ -1,6 +1,5 @@
 import React, { useContext, useState, useRef, useEffect } from 'react';
 import { Link, useLocation, useHistory } from 'react-router-dom';
-import { UIContext } from '../../providers/ui/ui.provider';
 import { UserContext } from '../../providers/user/user.provider';
 import './styles.scss';
 import Avatar from '../avatar';
@@ -9,7 +8,6 @@ import { isLoggedIn } from '../../utils/user';
 
 function Header() {
 	const history = useHistory();
-	const { toggleLoginModal } = useContext(UIContext);
 	const { currentUser, setCurrentUser } = useContext(UserContext);
 	const initialState = {
 		speciesLabel: '',
@@ -109,7 +107,7 @@ function Header() {
 						<React.Fragment>
 						<Link className="btn outline" to="/sign-up">Contribute</Link>
 							<li>
-								<a className="nav-item" onClick={() => toggleLoginModal()}>Sign In</a>
+								<Link to="/login" className="nav-item">Sign In</Link>
 							</li>
 						</React.Fragment>
 					)}
