@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
+import { UserContext } from '../../providers/user/user.provider';
 import './photopage.scss';
 import Avatar from '../../components/avatar';
 import { setTitle } from '../../utils/global';
@@ -8,7 +10,8 @@ import Error404 from '../error-404';
 import Loader from '../../components/loader';
 
 function PhotoPage({match: {params: {photoId}}}) {
-
+	const history = useHistory();
+	const { currentUser } = useContext(UserContext);
 	const [image, setImage] = useState(null);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(false);
@@ -28,6 +31,16 @@ function PhotoPage({match: {params: {photoId}}}) {
 			setLoading(false);
 		});
 	}, []);
+
+	const handleDelete = (event) => {
+		axios.delete('images/' + photoId)
+		.then(response => {
+			history.push('/profile/' + currentUser.id);
+		})
+		.catch(error => {
+			alert("Error deleting image");
+		});
+	}
 
 	if (loading) return <Loader/>;
 	if (error || !image) return <Error404/>;
@@ -60,6 +73,10 @@ function PhotoPage({match: {params: {photoId}}}) {
 
 				<img className="map" src={`https://maps.googleapis.com/maps/api/staticmap?zoom=5&scale=2&size=400x200&maptype=roadmap&key=${process.env.REACT_APP_GOOGLE_MAPS_KEY}&format=jpg&visual_refresh=true&markers=size:small%7Ccolor:0xff0000%7Clabel:S%7C${image.lat}%2C${image.lng}`}/>
 				{image.address}
+				<hr/>
+				<p>
+					<button type="button" class="text-danger btn-text" onClick={() => { if (window.confirm('Are you sure you want to delete this image? It will be gone. Forever.')) handleDelete() } }>Delete Image</button>
+				</p>
 			</div>
 		</div>
 

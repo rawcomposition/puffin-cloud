@@ -33,6 +33,12 @@ a:hover {
 	padding: 30px 0 90px 0;
 }
 
+hr {
+	border: none;
+	border-bottom: solid 1px #e8e8e8;
+	margin: 2rem 0;
+}
+
 .container {
 	margin-right: auto;
 	margin-left: auto;
@@ -67,6 +73,10 @@ a:hover {
 
 .text-center {
 	text-align: center;
+}
+
+.text-danger {
+	color: #dc3545 !important;
 }
 
 .text-muted {
@@ -197,6 +207,7 @@ input, input[type="text"], input[type="password"], input[type="email"], input[ty
 	cursor: pointer;
 	outline: none;
 	color: #555;
+	padding: 0;
 
 	&:focus {
 		outline: none;

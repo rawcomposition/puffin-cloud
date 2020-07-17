@@ -73,4 +73,12 @@ module.exports = {
 			}
 		})
 	  },
+	  async delete(ctx) {
+		const { id } = ctx.params;
+		const image = await strapi.services.images.findOne({ id: id });
+		if(image && image.user.id === ctx.state.user.id) {
+			await strapi.services.images.delete({ id });
+			return true;
+		}
+	},
 };
