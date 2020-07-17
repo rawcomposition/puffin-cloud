@@ -3,7 +3,6 @@ import { Switch, Route } from 'react-router-dom';
 import { UserContext } from './providers/user/user.provider';
 import Header from './components/header';
 import Footer from './components/footer';
-import LoginModal from './components/login-modal/login-modal.component';
 import HomePage from './pages/homepage/homepage.component';
 import PhotoPage from './pages/photopage/photopage.component';
 import BrowsePage from './pages/browsepage';
@@ -45,7 +44,6 @@ function App() {
 		  <PrivateRoute path='/upload' component={UploadPage}/>
 		  <Route component={Error404}/>
 		</Switch>
-		<LoginModal/>
 		<Footer/>
 	</React.Fragment>
   );
