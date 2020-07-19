@@ -8,39 +8,121 @@ import './styles.scss';
 
 function AccountPage({match: {params: {userId}}}) {
 	const { currentUser } = useContext(UserContext);
-	const [user, setUser] = useState(null);
-	const [loading, setLoading] = useState(true);
+	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState(false);
+	const [success, setSuccess] = useState(false);
 	const [tab, setTab] = useState('basic');
+
+	const initialState = {
+		first_name: '',
+		last_name: '',
+		email: '',
+		password: '',
+	}
+	
+	const [formState, setFormState] = useState(initialState);
+	const {email, first_name, last_name, password} = formState;
 
 	useEffect(() => {
 		setTitle('Account settings');
-	}, []);
+		if(currentUser) {
+			const { email, first_name, last_name } = currentUser;
+			setFormState({
+				email,
+				first_name,
+				last_name,
+			});
+		}
+	}, [currentUser]);
 
-	if (error) return <Error404/>;
+	const handleInputChange = event => {
+		const {name, value} = event.target;
+		setFormState({...formState, [name]: value});
+	}
+
+	const handleTabChange = tab => {
+		setTab(tab);
+		setError(false);
+		setSuccess(false);
+	}
+
+	const handleBasicSubmit = (e) => {
+		e.preventDefault();
+		setLoading(true);
+		setError(false);
+		setSuccess(false);
+		axios.put('users/basic', {
+			first_name,
+			last_name,
+			email
+		})
+		.then(response => {
+			setSuccess(true);
+		})
+		.catch(error => {
+			let message = "Error saving account info.";
+			try {
+				message = error.response.data.message[0].messages[0].message;
+			} catch (error) {}
+			setError(message);
+		})
+		.then(() => {
+			setLoading(false);
+		});
+	}
+
+	const handlePasswordSubmit = (e) => {
+		e.preventDefault();
+		setLoading(true);
+		setError(false);
+		setSuccess(false);
+		axios.put('users/password', {
+			password
+		})
+		.then(response => {
+			setSuccess(true);
+		})
+		.catch(error => {
+			let message = "Error updating password";
+			try {
+				message = error.response.data.message[0].messages[0].message;
+			} catch (error) {}
+			setError(message);
+		})
+		.then(() => {
+			setLoading(false);
+		});
+	}
+
 	if (!currentUser) return '';
 	return (
 		<div className="container compact account-page">
 			<ul className="menu">
-				<li className={tab == 'basic' ? 'active' : ''} onClick={() => setTab('basic')}>Name & Email</li>
-				<li className={tab == 'avatar' ? 'active' : ''} onClick={() => setTab('avatar')}>Profile Picture</li>
-				<li className={tab == 'password' ? 'active' : ''} onClick={() => setTab('password')}>Password</li>
+				<li className={tab == 'basic' ? 'active' : ''} onClick={() => handleTabChange('basic')}>Name & Email</li>
+				<li className={tab == 'avatar' ? 'active' : ''} onClick={() => handleTabChange('avatar')}>Profile Picture</li>
+				<li className={tab == 'password' ? 'active' : ''} onClick={() => handleTabChange('password')}>Password</li>
 			</ul>
-			{ tab == 'basic' &&
-				<form>
-					<label>First name<input type="text" value={currentUser.first_name}/></label>
-					<label>Last name<input type="text" value={currentUser.last_name}/></label>
-					<label>Email<input type="text" value={currentUser.email}/></label>
-				</form>
-			}
-			{ tab == 'avatar' &&
-				<div className="mt-1"><Avatar url={currentUser.avatar} size="70"/>Your profile picture is pulled automatically from <a href="https://gravatar.com/">gravatar.com</a>. To add, update, or remove your avatar, you may do so using their website.</div>
-			}
-			{ tab == 'password' &&
-				<form>
-				<label>New password<input type="password" placeholder="New password"/></label>
-				</form>
-			}
+			<div>
+				{error && <div className="form-error">{error}</div>}
+				{success && <div className="form-success">Saved successfully</div>}
+				{ tab == 'basic' &&
+					<form onSubmit={handleBasicSubmit}>
+						<label>First name<input type="text" name="first_name" value={first_name} onChange={handleInputChange}/></label>
+						<label>Last name<input type="text" name="last_name" value={last_name} onChange={handleInputChange}/></label>
+						<label>Email<input type="text" name="email" value={email} onChange={handleInputChange}/></label>
+						<button type="submit" className={'btn primary' + (loading ? ' disabled' : '')}>Save</button>
+					</form>
+				}
+				{ tab == 'avatar' &&
+					<div className="mt-1"><Avatar url={currentUser.avatar} size="70"/>Your profile picture is pulled automatically from <a href="https://gravatar.com/">gravatar.com</a>. To add, update, or remove your avatar, you may do so using their website.</div>
+				}
+				{ tab == 'password' &&
+					<form onSubmit={handlePasswordSubmit}>
+						<label>New password<input type="password" placeholder="New password" name="password" value={password} onChange={handleInputChange}/></label>
+						<button type="submit" className={'btn primary' + (loading ? ' disabled' : '')}>Save</button>
+					</form>
+				}
+			</div>
 			
 		</div>
 	);

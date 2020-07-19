@@ -98,6 +98,9 @@ function Header() {
 										<Link className="nav-item" to={'/profile/' + currentUser.id}>Profile</Link>
 									</li>
 									<li>
+										<Link className="nav-item" to='/account'>Account Settings</Link>
+									</li>
+									<li>
 										<a className="nav-item" onClick={handleLogout}>Logout</a>
 									</li>
 								</ul>
