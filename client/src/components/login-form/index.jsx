@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom";
 import { UserContext } from '../../providers/user/user.provider';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { setJWT } from '../../utils/user';
 import './styles.scss';
 
 const initialState = {
@@ -30,7 +31,7 @@ function LoginForm() {
 		.then(response => {
 			const { jwt } = response.data;
 			if(typeof jwt === 'string') {
-				localStorage.setItem('jwt', jwt);
+				setJWT(jwt);
 				setCurrentUser(response.data.user);
 				setSuccess(true);
 			}
