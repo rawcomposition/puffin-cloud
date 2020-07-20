@@ -9,5 +9,15 @@ module.exports = ({ env }) => ({
 		  Bucket: 'avian-commons',
 		},
 	  },
-	}
+	},
+	email: {
+		provider: 'sendgrid',
+		providerOptions: {
+			apiKey: env('SENDGRID_API_KEY'),
+		},
+		settings: {
+			defaultFrom: 'akjackson1@gmail.com',
+			defaultReplyTo: 'akjackson1@gmail.com',
+		},
+	},
   });
