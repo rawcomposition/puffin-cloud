@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import PhotoList from '../../components/photo-list/photo-list.component';
+import PhotoList from '../../components/photo-list';
 import Avatar from '../../components/avatar';
 import UserStats from '../../components/user-stats';
 import { setTitle } from '../../utils/global';

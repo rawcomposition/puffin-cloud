@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import PhotoList from '../../components/photo-list/photo-list.component';
+import PhotoList from '../../components/photo-list';
 import SpeciesSearch from '../../components/species-search';
 import { setTitle } from '../../utils/global';
 import './styles.scss';

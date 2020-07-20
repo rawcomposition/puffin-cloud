@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import PhotoItem from '../photo-item/photo-item.component';
+import PhotoItem from '../photo-item';
 import Loader from '../loader';
-import './photo-list.scss';
+import './styles.scss';
 
 function PhotoList({speciesCode, userId, infiniteScroll = true, loadMore = true, showLoader = false, perPage = 21}) {
 	const [images, setImages] = useState([]);

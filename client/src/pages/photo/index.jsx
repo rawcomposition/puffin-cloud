@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useHistory } from "react-router-dom";
 import { UserContext } from '../../providers/user/user.provider';
-import './photopage.scss';
+import './styles.scss';
 import Avatar from '../../components/avatar';
 import { setTitle } from '../../utils/global';
 import Error404 from '../error-404';
