@@ -19,7 +19,7 @@ import Error404 from './pages/error-404';
 import ForgotPassword from './pages/forgot-password';
 import ResetPassword from './pages/reset-password';
 import './_reboot.scss';
-import './styles.scss';
+import './app.scss';
 import axios from 'axios';
 
 function App() {
