@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 import PhotoItem from '../photo-item';
 import Loader from '../loader';
 import './styles.scss';
 
-function PhotoList({speciesCode, userId, infiniteScroll = true, loadMore = true, showLoader = false, perPage = 21}) {
+function PhotoList({speciesCode, userId, infiniteScroll = true, loadMore = true, showLoader = false, perPage = 6}) {
 	const [images, setImages] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(false);
 	const [resultsEnd, setResultsEnd] = useState(false);
 
-	const fetchImages = (offset = 0) => {
+	const fetchImages = useCallback((offset = 0) => {
 		setLoading(true);
 		axios.get('images', {
 			params: {
@@ -33,27 +33,13 @@ function PhotoList({speciesCode, userId, infiniteScroll = true, loadMore = true,
 		.then(() => {
 			setLoading(false);
 		});
-	}
+	}, [perPage, speciesCode, userId]);
 
-	useEffect(() => {
-		if(!infiniteScroll || resultsEnd || loading) return;
-		document.addEventListener("scroll", handleOnScroll);
-		return () => {
-			document.removeEventListener("scroll", handleOnScroll);
-		};
-	}, [images, resultsEnd, loading]);
-
-	useEffect(() => {
-		setImages([]);
-		setResultsEnd(false);
-		fetchImages(0);
-	}, [speciesCode]);
-
-	const handleLoadMore = () => {
+	const handleLoadMore = useCallback(() => {
 		fetchImages(images.length);
-	}
+	}, [fetchImages, images.length]);
 
-	const handleOnScroll = () => {
+	const handleOnScroll = useCallback(() => {
 		var scrollTop = (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
 		var scrollHeight = (document.documentElement && document.documentElement.scrollHeight) || document.body.scrollHeight;
 		var clientHeight = document.documentElement.clientHeight || window.innerHeight;
@@ -61,7 +47,21 @@ function PhotoList({speciesCode, userId, infiniteScroll = true, loadMore = true,
 		if (scrolledToBottom) {
 			handleLoadMore();
 		}
-	};
+	}, [handleLoadMore]);
+
+	useEffect(() => {
+		if(!infiniteScroll || resultsEnd || loading) return;
+		document.addEventListener("scroll", handleOnScroll);
+		return () => {
+			document.removeEventListener("scroll", handleOnScroll);
+		};
+	}, [images, resultsEnd, loading, infiniteScroll, fetchImages, handleOnScroll]);
+
+	useEffect(() => {
+		setImages([]);
+		setResultsEnd(false);
+		fetchImages(0);
+	}, [speciesCode, fetchImages]);
 
 	return (
 		<React.Fragment>
@@ -70,6 +70,7 @@ function PhotoList({speciesCode, userId, infiniteScroll = true, loadMore = true,
 					if(image.file && image.species) {
 						return <PhotoItem key={image.id} item={image}/>
 					}
+					return '';
 				})}
 			</div>
 			{loading && showLoader ? <Loader/> : ''}

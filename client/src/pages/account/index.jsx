@@ -2,11 +2,11 @@ import React, { useState, useEffect, useContext } from 'react';
 import { UserContext } from '../../providers/user/user.provider';
 import { setTitle } from '../../utils/global';
 import Avatar from '../../components/avatar';
-import Error404 from '../error-404';
+import Loader from '../../components/loader';
 import axios from 'axios';
 import './styles.scss';
 
-function AccountPage({match: {params: {userId}}}) {
+function AccountPage() {
 	const { currentUser } = useContext(UserContext);
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState(false);
@@ -94,18 +94,18 @@ function AccountPage({match: {params: {userId}}}) {
 		});
 	}
 
-	if (!currentUser) return '';
+	if (!currentUser) return <Loader/>;
 	return (
 		<div className="container compact account-page">
 			<ul className="menu">
-				<li className={tab == 'basic' ? 'active' : ''} onClick={() => handleTabChange('basic')}>Name & Email</li>
-				<li className={tab == 'avatar' ? 'active' : ''} onClick={() => handleTabChange('avatar')}>Profile Picture</li>
-				<li className={tab == 'password' ? 'active' : ''} onClick={() => handleTabChange('password')}>Password</li>
+				<li className={tab === 'basic' ? 'active' : ''} onClick={() => handleTabChange('basic')}>Name & Email</li>
+				<li className={tab === 'avatar' ? 'active' : ''} onClick={() => handleTabChange('avatar')}>Profile Picture</li>
+				<li className={tab === 'password' ? 'active' : ''} onClick={() => handleTabChange('password')}>Password</li>
 			</ul>
 			<div>
 				{error && <div className="form-error">{error}</div>}
 				{success && <div className="form-success">Saved successfully</div>}
-				{ tab == 'basic' &&
+				{ tab === 'basic' &&
 					<form onSubmit={handleBasicSubmit}>
 						<label>First name<input type="text" name="first_name" value={first_name} onChange={handleInputChange}/></label>
 						<label>Last name<input type="text" name="last_name" value={last_name} onChange={handleInputChange}/></label>
@@ -113,10 +113,10 @@ function AccountPage({match: {params: {userId}}}) {
 						<button type="submit" className={'btn primary' + (loading ? ' disabled' : '')}>Save</button>
 					</form>
 				}
-				{ tab == 'avatar' &&
+				{ tab === 'avatar' &&
 					<div className="mt-1"><Avatar url={currentUser.avatar} size="70"/>Your profile picture is pulled automatically from <a href="https://gravatar.com/">gravatar.com</a>. To add, update, or remove your avatar, you may do so using their website.</div>
 				}
-				{ tab == 'password' &&
+				{ tab === 'password' &&
 					<form onSubmit={handlePasswordSubmit}>
 						<label>New password<input type="password" placeholder="New password" name="password" value={password} onChange={handleInputChange}/></label>
 						<button type="submit" className={'btn primary' + (loading ? ' disabled' : '')}>Save</button>

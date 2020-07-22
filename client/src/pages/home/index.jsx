@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import PhotoList from '../../components/photo-list';
 import Stats from '../../components/stats';

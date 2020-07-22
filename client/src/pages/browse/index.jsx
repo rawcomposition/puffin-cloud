@@ -26,7 +26,7 @@ function BrowsePage({location}) {
 		});
 	}
 
-	const {speciesCode, speciesLabel, value} = formState;
+	const { speciesCode, speciesLabel } = formState;
 	
 	return (
 		<div className="container browse-page">

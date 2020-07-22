@@ -15,7 +15,7 @@ function UserStats({userId}) {
 			setStats(response.data);
 		})
 		.catch(err => {});
-	}, []);
+	}, [userId]);
 	
 	return (
 		<React.Fragment>

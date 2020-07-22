@@ -13,7 +13,7 @@ function ImageDropzone({handleImageAdd, handleSetTotalFiles}) {
 					status: 'waiting',
 				});
 		});
-	}, []);
+	}, [handleImageAdd, handleSetTotalFiles]);
 
 	const {getRootProps, getInputProps} = useDropzone({
 		onDrop,

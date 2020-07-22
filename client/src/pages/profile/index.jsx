@@ -25,7 +25,7 @@ function ProfilePage({match: {params: {userId}}}) {
 		.then(() => {
 			setLoading(false);
 		})
-	}, []);
+	}, [userId]);
 
 	if (loading) return <Loader/>;
 	if (error || !user) return <Error404/>;

@@ -30,7 +30,7 @@ function PhotoPage({match: {params: {photoId}}}) {
 		.then(() => {
 			setLoading(false);
 		});
-	}, []);
+	}, [photoId]);
 
 	const handleDelete = (event) => {
 		axios.delete('images/' + photoId)
@@ -48,7 +48,7 @@ function PhotoPage({match: {params: {photoId}}}) {
 	return (
 		<div className="container photo-page">
 			<div className="photo-container">
-				<img src={image.file.url}/>
+				<img src={image.file.url} alt=""/>
 				<h2>{image.species.common_name} <span className="text-badge text-italic">{image.species.scientific_name}</span></h2>
 			</div>
 			<div className="sidebar">
@@ -71,11 +71,11 @@ function PhotoPage({match: {params: {photoId}}}) {
 					</div>
 				</div>
 
-				<img className="map" src={`https://maps.googleapis.com/maps/api/staticmap?zoom=5&scale=2&size=400x200&maptype=roadmap&key=${process.env.REACT_APP_GOOGLE_MAPS_KEY}&format=jpg&visual_refresh=true&markers=size:small%7Ccolor:0xff0000%7Clabel:S%7C${image.lat}%2C${image.lng}`}/>
+				<img className="map" alt="Map" src={`https://maps.googleapis.com/maps/api/staticmap?zoom=5&scale=2&size=400x200&maptype=roadmap&key=${process.env.REACT_APP_GOOGLE_MAPS_KEY}&format=jpg&visual_refresh=true&markers=size:small%7Ccolor:0xff0000%7Clabel:S%7C${image.lat}%2C${image.lng}`}/>
 				{image.address}
 				<hr/>
 				<p>
-					<button type="button" class="text-danger btn-text" onClick={() => { if (window.confirm('Are you sure you want to delete this image? It will be gone. Forever.')) handleDelete() } }>Delete Image</button>
+					<button type="button" className="text-danger btn-text" onClick={() => { if (window.confirm('Are you sure you want to delete this image? It will be gone. Forever.')) handleDelete() } }>Delete Image</button>
 				</p>
 			</div>
 		</div>

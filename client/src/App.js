@@ -31,7 +31,7 @@ function App() {
 			setCurrentUser(user);
 		})
 		.catch(error => {});
-	}, []);
+	}, [setCurrentUser]);
 
   return (
 	<React.Fragment>

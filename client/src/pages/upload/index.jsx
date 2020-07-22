@@ -1,4 +1,4 @@
-import React, {useContext, useState, useEffect} from 'react';
+import React, {useContext, useState, useEffect, useCallback} from 'react';
 import ImageDropzone from '../../components/image-dropzone';
 import UploadStatus from '../../components/upload-status';
 import UploadableImage from '../../components/uploadable-image';
@@ -37,45 +37,7 @@ function UploadPage() {
 		setTitle("Upload Images");
 	}, []);
 
-	useEffect(() => {
-		if(totalFiles === images.length && ! uploadStarted) {
-			handleUpload();
-		}
-	}, [images]);
-
-	const handleSpeciesChange = ({speciesCode, speciesId}, targetIndex) => {
-		console.log(speciesId);
-		let imagesCopy = [...images];
-		imagesCopy[targetIndex] = {
-			...imagesCopy[targetIndex],
-			code: speciesCode,
-			species_id: speciesId,
-		}
-		setImages(imagesCopy);
-	}
-
-	const handleLocationChange = (data, targetIndex) => {
-		console.log(data);
-		let imagesCopy = [...images];
-		imagesCopy[targetIndex] = {
-			...imagesCopy[targetIndex],
-			...data
-		}
-		setImages(imagesCopy);
-	}
-
-	const updateImageStatus = (status, targetIndex) => {		
-		setImages(images => {
-			let imagesCopy = [...images];
-			imagesCopy[targetIndex] = {
-				...imagesCopy[targetIndex],
-				status: status,
-			}
-			return imagesCopy;
-		});
-	};
-
-	const handleUpload = async () => {
+	const handleUpload = useCallback(async () => {
 		const totalImages = images.length;
 		if(totalImages > 0) {
 			setUploadStarted(true);
@@ -100,6 +62,42 @@ function UploadPage() {
 				setRemainingUploads(value => (value > 1 ? value - 1 : 0));
 			});
 		}
+	}, [images]);
+
+	useEffect(() => {
+		if(totalFiles === images.length && ! uploadStarted) {
+			handleUpload();
+		}
+	}, [images, totalFiles, images.length, uploadStarted, handleUpload]);
+
+	const handleSpeciesChange = ({speciesCode, speciesId}, targetIndex) => {
+		let imagesCopy = [...images];
+		imagesCopy[targetIndex] = {
+			...imagesCopy[targetIndex],
+			code: speciesCode,
+			species_id: speciesId,
+		}
+		setImages(imagesCopy);
+	}
+
+	const handleLocationChange = (data, targetIndex) => {
+		let imagesCopy = [...images];
+		imagesCopy[targetIndex] = {
+			...imagesCopy[targetIndex],
+			...data
+		}
+		setImages(imagesCopy);
+	}
+
+	const updateImageStatus = (status, targetIndex) => {		
+		setImages(images => {
+			let imagesCopy = [...images];
+			imagesCopy[targetIndex] = {
+				...imagesCopy[targetIndex],
+				status: status,
+			}
+			return imagesCopy;
+		});
 	};
 
 	const handleSubmit = () => {

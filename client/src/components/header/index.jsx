@@ -17,9 +17,9 @@ function Header() {
 
 	const [menuOpen, setMenuOpen] = useState(false);
 	const [formState, setFormState] = useState(initialState);
-	const { speciesCode, speciesLabel, value } = formState;
+	const { value } = formState;
 	const { pathname } = useLocation();
-	const isHome = pathname == '/';
+	const isHome = pathname === '/';
 	const node = useRef();
 	
 	useEffect(() => {
