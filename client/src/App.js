@@ -37,19 +37,19 @@ function App() {
 		<Header/>
 		<div className="page-container">
 			<Switch>
-			<Route exact path='/' component={HomePage}/>
-			<Route path='/photo/:photoId' component={PhotoPage}/>
-			<Route path='/profile/:userId' component={ProfilePage}/>
-			<Route path='/account' component={AccountPage}/>
-			<Route path='/browse' component={BrowsePage}/>
-			<Route path='/about' component={AboutPage}/>
-			<Route path='/license' component={LicensePage}/>
-			<Route path ='/login' component={LoginPage}/>
-			<Route path='/sign-up' component={SignupPage}/>
-			<Route path='/forgot-password' component={ForgotPassword}/>
-			<Route path='/reset-password' component={ResetPassword}/>
-			<PrivateRoute path='/upload' component={UploadPage}/>
-			<Route component={Error404}/>
+				<Route exact path='/' component={HomePage}/>
+				<Route path='/photo/:photoId' component={PhotoPage}/>
+				<Route path='/profile/:userId' component={ProfilePage}/>
+				<PrivateRoute path='/account' component={AccountPage}/>
+				<Route path='/browse' component={BrowsePage}/>
+				<Route path='/about' component={AboutPage}/>
+				<Route path='/license' component={LicensePage}/>
+				<Route path ='/login' component={LoginPage}/>
+				<Route path='/sign-up' component={SignupPage}/>
+				<Route path='/forgot-password' component={ForgotPassword}/>
+				<Route path='/reset-password' component={ResetPassword}/>
+				<PrivateRoute path='/upload' component={UploadPage}/>
+				<Route component={Error404}/>
 			</Switch>
 		</div>
 		<Footer/>
