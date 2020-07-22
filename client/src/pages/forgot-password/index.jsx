@@ -9,7 +9,7 @@ function ForgotPassword() {
 	const [success, setSuccess] = useState(false);
 
 	useEffect(() => {
-		setTitle('Update Password');
+		setTitle('Forgot Password');
 	},[]);
 
 	const handleSubmit = event => {
