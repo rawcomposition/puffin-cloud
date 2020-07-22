@@ -4,7 +4,6 @@ import { UserContext } from '../../providers/user/user.provider';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { setJWT } from '../../utils/user';
-import './styles.scss';
 
 const initialState = {
 	email: '',
@@ -64,7 +63,7 @@ function SignupForm() {
 
 	const submitDisabled = !email || !password || loading;
 	return (
-		<form onSubmit={handleSubmit} className="signup-form">
+		<form onSubmit={handleSubmit} className="signup-form auth-form">
 			{formError && <div className="form-error">{formError}</div>}
 			{success && <div className="form-success">Sign up successful</div>}
 			<input type="text" onChange={handleInputChange} name="email" value={email} placeholder="Email"/>

@@ -15,6 +15,8 @@ import PrivateRoute from './components/private-route';
 import LoginPage from './pages/login';
 import SignupPage from './pages/signup';
 import Error404 from './pages/error-404';
+import ForgotPassword from './pages/forgot-password';
+import ResetPassword from './pages/reset-password';
 import './_reboot.scss';
 import './styles.scss';
 import axios from 'axios';
@@ -44,6 +46,8 @@ function App() {
 			<Route path='/license' component={LicensePage}/>
 			<Route path ='/login' component={LoginPage}/>
 			<Route path='/sign-up' component={SignupPage}/>
+			<Route path='/forgot-password' component={ForgotPassword}/>
+			<Route path='/reset-password' component={ResetPassword}/>
 			<PrivateRoute path='/upload' component={UploadPage}/>
 			<Route component={Error404}/>
 			</Switch>

@@ -1,7 +1,5 @@
 import React from 'react';
 import LoginForm from '../../components/login-form';
-import './styles.scss';
-
 
 function LoginPage() {
 	return (

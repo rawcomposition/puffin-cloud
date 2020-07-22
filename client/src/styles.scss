@@ -255,12 +255,23 @@ input, input[type="text"], input[type="password"], input[type="email"], input[ty
 	}
 }
 
+.auth-form {
+	max-width: 400px;
+	margin: auto;
+	margin-bottom: 3rem;
+}
+
 .form-error {
 	background: #ca2f2f;
 	border-radius: 3px;
 	padding: 8px 12px;
 	color: white;
 	margin-bottom: 1rem;
+
+	a {
+		color: white;
+		text-decoration: underline;
+	}
 }
 
 .form-success {
@@ -269,4 +280,9 @@ input, input[type="text"], input[type="password"], input[type="email"], input[ty
 	padding: 8px 12px;
 	color: white;
 	margin-bottom: 1rem;
+
+	a {
+		color: white;
+		text-decoration: underline;
+	}
 }

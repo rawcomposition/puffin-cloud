@@ -64,7 +64,7 @@ function LoginForm() {
 	const submitDisabled = !email || !password || loading;
 
 	return (
-		<form onSubmit={handleSubmit} className="login-form">
+		<form onSubmit={handleSubmit} className="login-form auth-form">
 			{formError && <div className="form-error">{formError}</div>}
 			{success && <div className="form-success">Login successful</div>}
 			<input type="text" onChange={handleInputChange} name="email" value={email} placeholder="Email"/>
