@@ -8,7 +8,7 @@ import { isLoggedIn } from '../../utils/user';
 
 function Header() {
 	const history = useHistory();
-	const { currentUser, setCurrentUser } = useContext(UserContext);
+	const { currentUser } = useContext(UserContext);
 	const initialState = {
 		speciesLabel: '',
 		speciesCode: '',
@@ -47,12 +47,6 @@ function Header() {
 			...formState,
 			value
 		});
-	}
-
-	const handleLogout = (e) => {
-		localStorage.removeItem('jwt');
-		setCurrentUser({});
-		window.location.href = '/';
 	}
 
 	const handleMenuClick = (e) => {
@@ -101,7 +95,7 @@ function Header() {
 										<Link className="nav-item" to='/account'>Account Settings</Link>
 									</li>
 									<li>
-										<a className="nav-item" onClick={handleLogout}>Logout</a>
+										<Link className="nav-item" to='/logout'>Logout</Link>
 									</li>
 								</ul>
 							</div>

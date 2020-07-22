@@ -14,6 +14,7 @@ import LicensePage from './pages/license';
 import PrivateRoute from './components/private-route';
 import AuthRoute from './components/auth-route';
 import LoginPage from './pages/login';
+import LogoutPage from './pages/logout';
 import SignupPage from './pages/signup';
 import Error404 from './pages/error-404';
 import ForgotPassword from './pages/forgot-password';
@@ -46,6 +47,7 @@ function App() {
 				<Route path='/license' component={LicensePage}/>
 				<PrivateRoute path='/account' component={AccountPage}/>
 				<PrivateRoute path='/upload' component={UploadPage}/>
+				<Route path='/logout' component={LogoutPage}/>
 				<AuthRoute path ='/login' component={LoginPage}/>
 				<AuthRoute path='/sign-up' component={SignupPage}/>
 				<AuthRoute path='/forgot-password' component={ForgotPassword}/>
