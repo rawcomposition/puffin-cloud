@@ -12,6 +12,7 @@ import AccountPage from './pages/account';
 import AboutPage from './pages/about';
 import LicensePage from './pages/license';
 import PrivateRoute from './components/private-route';
+import AuthRoute from './components/auth-route';
 import LoginPage from './pages/login';
 import SignupPage from './pages/signup';
 import Error404 from './pages/error-404';
@@ -40,15 +41,15 @@ function App() {
 				<Route exact path='/' component={HomePage}/>
 				<Route path='/photo/:photoId' component={PhotoPage}/>
 				<Route path='/profile/:userId' component={ProfilePage}/>
-				<PrivateRoute path='/account' component={AccountPage}/>
 				<Route path='/browse' component={BrowsePage}/>
 				<Route path='/about' component={AboutPage}/>
 				<Route path='/license' component={LicensePage}/>
-				<Route path ='/login' component={LoginPage}/>
-				<Route path='/sign-up' component={SignupPage}/>
-				<Route path='/forgot-password' component={ForgotPassword}/>
-				<Route path='/reset-password' component={ResetPassword}/>
+				<PrivateRoute path='/account' component={AccountPage}/>
 				<PrivateRoute path='/upload' component={UploadPage}/>
+				<AuthRoute path ='/login' component={LoginPage}/>
+				<AuthRoute path='/sign-up' component={SignupPage}/>
+				<AuthRoute path='/forgot-password' component={ForgotPassword}/>
+				<AuthRoute path='/reset-password' component={ResetPassword}/>
 				<Route component={Error404}/>
 			</Switch>
 		</div>
