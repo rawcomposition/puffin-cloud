@@ -20,3 +20,22 @@
 		}
 	}
 }
+
+@media (max-width: 992px) {
+	.stats .stat-box {
+		width: 30%;
+		padding: 20px 40px 30px 40px;
+	}
+}
+
+@media (max-width: 768px) {
+	.stats {
+		display: block;
+
+		.stat-box {
+			width: 80%;
+			margin: auto;
+			margin-bottom: 1rem;
+		}
+	}
+}

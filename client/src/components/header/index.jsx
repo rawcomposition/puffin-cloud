@@ -15,6 +15,7 @@ function Header() {
 		value: '',
 	}
 
+	const [dropdownOpen, setDropdownOpen] = useState(false);
 	const [menuOpen, setMenuOpen] = useState(false);
 	const [formState, setFormState] = useState(initialState);
 	const { value } = formState;
@@ -50,15 +51,19 @@ function Header() {
 	}
 
 	const handleMenuClick = (e) => {
-		setMenuOpen(menuOpen => !menuOpen);
+		setDropdownOpen(dropdownOpen => !dropdownOpen);
 	}
 
 	const handleClick = e => {
 		if (node.current && node.current.contains(e.target)) {
 			return;
 		}
-		setMenuOpen(false);
-	};
+		setDropdownOpen(false);
+	}
+
+	const handleMenuToggle = () => {
+		setMenuOpen(!menuOpen);
+	}
 
 	return(
 		<header className="masthead">
@@ -69,46 +74,52 @@ function Header() {
 						<span>PuffinCloud</span>
 					</Link>
 				</div>
-				
-				<ul className="nav">
-					<li>
-						<Link className="nav-item" to="/">Home</Link>
-					</li>
-					<li>
-						<Link className="nav-item" to="/about">About</Link>
-					</li>
-					<li>
-						<Link className="nav-item" to="/browse">Browse</Link>
-					</li>
-				</ul>
-				<ul className="nav right">
-					{(isLoggedIn() && currentUser && currentUser.id) ? (
-						<div className="current-user">
-							<Link className="btn outline" to="/upload">Upload Photos</Link>
-							<div className="dropdown-menu-container" onClick={handleMenuClick} ref={node}>
-								<Avatar url={currentUser.avatar}/>
-								<ul className={'dropdown-menu ' + (menuOpen ? 'active' : '')}>
-									<li>
-										<Link className="nav-item" to={'/profile/' + currentUser.id}>Profile</Link>
-									</li>
-									<li>
-										<Link className="nav-item" to='/account'>Account Settings</Link>
-									</li>
-									<li>
-										<Link className="nav-item" to='/logout'>Logout</Link>
-									</li>
-								</ul>
+				<nav class={'menu-wrapper ' + (menuOpen ? 'open' : '')}>
+					<ul className="nav">
+						<li className="menu-header">
+							<span>Menu</span>
+							<button className="btn-text close" onClick={handleMenuToggle}>&times;</button>
+						</li>
+						<li>
+							<Link className="nav-item" to="/">Home</Link>
+						</li>
+						<li>
+							<Link className="nav-item" to="/about">About</Link>
+						</li>
+						<li>
+							<Link className="nav-item" to="/browse">Browse</Link>
+						</li>
+					</ul>
+					<ul className="nav right">
+						{(isLoggedIn() && currentUser && currentUser.id) ? (
+							<div className="current-user">
+								<Link className="btn outline" to="/upload">Upload Photos</Link>
+								<div className="dropdown-menu-container" onClick={handleMenuClick} ref={node}>
+									<Avatar url={currentUser.avatar}/>
+									<ul className={'dropdown-menu ' + (dropdownOpen ? 'active' : '')}>
+										<li>
+											<Link className="nav-item" to={'/profile/' + currentUser.id}>Profile</Link>
+										</li>
+										<li>
+											<Link className="nav-item" to='/account'>Account Settings</Link>
+										</li>
+										<li>
+											<Link className="nav-item" to='/logout'>Logout</Link>
+										</li>
+									</ul>
+								</div>
 							</div>
-						</div>
-					) : (
-						<React.Fragment>
-						<Link className="btn outline" to="/sign-up">Contribute</Link>
-							<li>
-								<Link to="/login" className="nav-item">Sign In</Link>
-							</li>
-						</React.Fragment>
-					)}
-				</ul>
+						) : (
+							<React.Fragment>
+							<Link className="btn outline" to="/sign-up">Contribute</Link>
+								<li>
+									<Link to="/login" className="nav-item">Sign In</Link>
+								</li>
+							</React.Fragment>
+						)}
+					</ul>
+				</nav>
+				<button className="btn-text nav right menu-toggle" onClick={handleMenuToggle}><span className="hamburger"></span></button>
 			</div>
 			{ isHome ? (
 				<div className="container">

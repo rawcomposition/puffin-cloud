@@ -3,4 +3,15 @@
 	grid-gap: 2rem;
 	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
 }
-/*To Do: https://stackoverflow.com/questions/44377343/css-only-masonry-layout*/
+
+@media (max-width: 768px) {
+	.photo-grid {
+		grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+	}
+}
+
+@media (max-width: 480px) {
+	.photo-grid {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}
