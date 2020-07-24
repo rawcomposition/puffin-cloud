@@ -91,3 +91,13 @@
 		margin-top: 1rem;
 	}
 }
+
+@media (max-width: 640px) {
+	.upload-page {
+		display: block;
+
+		.sidebar {
+			width: 100%;
+		}
+	}
+}
