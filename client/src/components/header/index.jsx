@@ -18,7 +18,7 @@ function Header() {
 		<header className="main-header">
 			<div className="nav-bar">
 				<Logo/>
-				<MainNav menuOpen={menuOpen} handleMenuToggle={handleMenuToggle}/>
+				<MainNav menuOpen={menuOpen} handleMenuClose={() => setMenuOpen(false)}/>
 				<button className="btn-text right menu-toggle" onClick={handleMenuToggle}><span className="hamburger"></span></button>
 			</div>
 			{ isHome ? (

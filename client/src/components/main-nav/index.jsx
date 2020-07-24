@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import NavItem from '../nav-item';
 import AvatarDropdown from '../avatar-dropdown';
@@ -6,14 +6,22 @@ import { UserContext } from '../../providers/user/user.provider';
 import { isLoggedIn } from '../../utils/user';
 import './styles.scss';
 
-function MainNav({menuOpen, handleMenuToggle}) {
+function MainNav({menuOpen, handleMenuClose}) {
+
+	useEffect(() => {
+		document.addEventListener("mousedown", handleMenuClose);
+		return () => {
+			document.removeEventListener("mousedown", handleMenuClose);
+		};
+	}, []);
+
 	const { currentUser } = useContext(UserContext);
 	return (
 		<nav className={'main-nav ' + (menuOpen ? 'open' : '')}>
 			<ul className='nav'>
 				<li className='menu-header'>
 					<span>Menu</span>
-					<button className='btn-text close' onClick={handleMenuToggle}>&times;</button>
+					<button className='btn-text close' onClick={handleMenuClose}>&times;</button>
 				</li>
 				<NavItem label='Home' link='/'/>
 				<NavItem label='About' link='/about'/>
