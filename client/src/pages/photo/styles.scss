@@ -4,6 +4,7 @@
 
 	.photo-container {
 		flex: 1;
+		margin-bottom: 1rem;
 
 		img {
 			width: 100%;
@@ -64,3 +65,13 @@
 	}
 }
 
+@media (max-width: 992px) {
+	.photo-page {
+		display: block;
+
+		.sidebar {
+			margin-left: 0;
+			width: unset;
+		}
+	}
+}
