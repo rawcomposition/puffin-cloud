@@ -70,7 +70,7 @@ function SignupForm() {
 			<input type="password" onChange={handleInputChange} placeholder="Password" name="password" value={password}/>
 			<button className={'m-auto btn primary' + (submitDisabled ? ' disabled' : '')} disabled={submitDisabled}>Create Account</button>
 			<div className="text-center text-muted mt-2">
-					Already have an account? <Link to="/signup">Signup</Link>
+					Already have an account? <Link to="/login">Login</Link>
 			</div>
 		</form>
 	);
