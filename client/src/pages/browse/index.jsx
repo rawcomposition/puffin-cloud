@@ -20,10 +20,7 @@ function BrowsePage({location}) {
 	}, []);
 
 	const handleSpeciesChange = ({ speciesCode }) => {
-		setState({
-			...formState,
-			speciesCode
-		});
+		setState({...formState, speciesCode});
 	}
 
 	const { speciesCode, speciesLabel } = formState;

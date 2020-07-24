@@ -1,6 +1,6 @@
 import React from 'react';
 
-function UploadStatus({uploadStarted, remainingUploads}) {
+function UploadStatus({remainingUploads}) {
 	return (
 		<div className="upload-status">
 			{remainingUploads > 0 &&

@@ -1,4 +1,6 @@
 .browse-page {
+	padding-bottom: 4rem;
+
 	.filter-menu {
 		display: flex;
 		margin: 2rem 0;
@@ -6,9 +8,5 @@
 	
 	.species-select {
 		max-width: 500px;
-	}
-
-	.sort {
-		margin-left: auto;
 	}
 }
