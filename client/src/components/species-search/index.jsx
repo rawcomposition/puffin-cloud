@@ -69,18 +69,12 @@ const SpeciesSearch = ({handleChange, handleInputChange, inputValue = '', hideBo
 			if (activeIndex === 0) {
 				return;
 			}
-			setState({
-				...state,
-				activeIndex: activeIndex - 1,
-			});
+			setState({...state, activeIndex: activeIndex - 1});
 		} else if (e.keyCode === 40) {
 			if (activeIndex - 1 === suggestions.length) {
 				return;
 			}
-			setState({
-				...state,
-				activeIndex: activeIndex + 1,
-			});
+			setState({...state, activeIndex: activeIndex + 1});
 		} else if (e.keyCode === 27) {
 			setOpen(false);
 		} else {
