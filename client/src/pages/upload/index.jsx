@@ -11,7 +11,7 @@ import { setTitle } from '../../utils/global';
 function UploadPage() {
 	const { currentUser } = useContext(UserContext);
 	const history = useHistory();
-	const [images, setImages] = useState([]);
+	const [images, setImages] = useState([{}]);
 	const [totalFiles, setTotalFiles] = useState(0);
 	const [uploadStarted, setUploadStarted] = useState(false);
 	const [remainingUploads, setRemainingUploads] = useState(null);
